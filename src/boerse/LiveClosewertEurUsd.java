@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.logging.Logger;
+import java.net.InetAddress;
 
 /**
  *
@@ -28,11 +29,19 @@ import java.util.logging.Logger;
  */
 public class LiveClosewertEurUsd{
     static long stunde = 60 * 60000;
+    Dateilogger logger = Dateilogger.getInstance();
     public String getWert() {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         String text;
         try {
+            InetAddress inet = InetAddress.getByName("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/");
+            if (inet.isReachable(10000)){   
+               logger.logge("Connected "+ inet.toString());
+            }
+            else{
+               logger.logge("Failed "+inet.toString());
+            }
             Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/").openStream());
             while (scanner.hasNextLine()) {
                 if(i == 13)

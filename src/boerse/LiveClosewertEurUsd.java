@@ -40,7 +40,7 @@ public class LiveClosewertEurUsd{
                logger.logge("Connected "+ inet.toString());
             }
             else{
-               logger.logge("Failed "+inet.toString());
+               logger.loggeWarning("Failed "+inet.toString());
             }
             Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/").openStream());
             while (scanner.hasNextLine()) {

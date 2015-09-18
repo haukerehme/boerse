@@ -31,19 +31,21 @@ public class WerteAuslesen {
         //ArrayList<Kursdaten> daten = new ArrayList<Kursdaten>();
         LiveClosewertEurUsd liveInstanz = new LiveClosewertEurUsd();
         double letzterWert;
-        
+        double wertNeu;
+        Calendar cl;
+        Timestamp akt;
         while(true){
             
             //Aktueller Wert
-            double wertNeu = 0;
+            wertNeu = 0;
             try{
                 wertNeu = liveInstanz.getClosewert();
             }catch(Exception e){
                 logger.logge("getCloseWert Fail\n");
                 logger.logge(e.toString());
             }
-            Calendar cl = Calendar.getInstance();
-            Timestamp akt = new Timestamp(cl.getTimeInMillis());
+            cl = Calendar.getInstance();
+            akt = new Timestamp(cl.getTimeInMillis());
             if(akt.getSeconds() < 59){
                 akt.setMinutes(akt.getMinutes()-1);
             }

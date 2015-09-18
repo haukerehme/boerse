@@ -5,22 +5,12 @@
  */
 
 package boerse;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.sql.SQLException;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Scanner;
-import java.util.TimeZone;
-import java.util.logging.Logger;
 import java.net.InetAddress;
 
 /**
@@ -30,18 +20,18 @@ import java.net.InetAddress;
 public class LiveClosewertEurUsd{
     static long stunde = 60 * 60000;
     Dateilogger logger = Dateilogger.getInstance();
-    public String getWert() {
+    public String getWert() throws MalformedURLException {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         String text;
         try {
-            InetAddress inet = InetAddress.getByName("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/");
+            /*InetAddress inet = InetAddress.getByName("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/");
             if (inet.isReachable(10000)){   
                logger.logge("Connected "+ inet.toString());
             }
             else{
                logger.loggeWarning("Failed "+inet.toString());
-            }
+            }*/
             Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/").openStream());
             while (scanner.hasNextLine()) {
                 if(i == 13)

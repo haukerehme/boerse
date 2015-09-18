@@ -8,8 +8,14 @@ package boerse;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,15 +37,35 @@ public class WerteAuslesen {
         //ArrayList<Kursdaten> daten = new ArrayList<Kursdaten>();
         LiveClosewertEurUsd liveInstanz = new LiveClosewertEurUsd();
         double letzterWert;
-        double wertNeu;
+        double wert;
         Calendar cl;
         Timestamp akt;
+        Connection conn = null;
+        String query = null;
+        try
+        {
+          // create a mysql database connection
+          String myUrl = "jdbc:mysql://localhost:3306/eurusd";
+          Class.forName("com.mysql.jdbc.Driver");
+          System.out.println("Verbindungsversuch:");
+          conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
+          query = " insert into closewerte (zeit,wert)"
+            + " values (?, ?)";
+        }
+        catch (Exception e)
+        {
+          System.err.println("Got an exception!");
+          System.err.println(e.getMessage());
+        }
+        
+        
+        
         while(true){
             
             //Aktueller Wert
-            wertNeu = 0;
+            wert = 0;
             try{
-                wertNeu = liveInstanz.getClosewert();
+                wert = liveInstanz.getClosewert();
             }catch(Exception e){
                 logger.logge("getCloseWert Fail\n");
                 logger.logge(e.toString());
@@ -51,12 +77,25 @@ public class WerteAuslesen {
             }
             akt.setSeconds(59);   
             BufferedWriter bw = new BufferedWriter(new FileWriter("/home/test.csv",true));
-            bw.write(akt.toString()+";"+wertNeu);
+            bw.write(akt.toString()+";"+wert);
             bw.newLine();
             bw.flush();
             //-> Die aktuelle Zeit
             //Wert + Uhrzeit in DB schreiben
-        }      
+            // create the mysql insert preparedstatement
+            // the mysql insert statement
+          
+            PreparedStatement preparedStmt = null;
+            try {
+                preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setTimestamp(1, akt);
+                preparedStmt.setDouble(2, wert);
+                // execute the preparedstatement
+                preparedStmt.execute();
+            } catch (SQLException ex) {
+                logger.loggeWarning("SQL Exception: "+ex.toString());
+                Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
     }
-    
 }

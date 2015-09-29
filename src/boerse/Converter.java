@@ -12,7 +12,15 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,6 +29,7 @@ import java.util.ArrayList;
 public class Converter {
     Run runInstanz = Run.getInstance();
     Dateilogger logger = Dateilogger.getInstance();
+    private Object DatabaseManager;
     void arrayincsv(ArrayList<Kursdaten> liste, String dateiname)
     {    
         try {
@@ -64,6 +73,8 @@ public class Converter {
 	}
         return daten;
     }
+    
+    
     
     ArrayList<Integer> csvinIntArray(String dateiname) throws IOException
     {

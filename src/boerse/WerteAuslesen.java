@@ -31,7 +31,7 @@ public class WerteAuslesen {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, SQLException {
         // TODO code application logic here
         Dateilogger logger = Dateilogger.getInstance();
-        Rechner rechner = new Rechner();
+//        Rechner rechner = new Rechner();
         Kursdaten tmp = new Kursdaten();
         Converter converter = new Converter();
         ArrayOperationen ao = new ArrayOperationen();
@@ -104,7 +104,8 @@ public class WerteAuslesen {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            rechner.unterschiedsVergleicher(closewerte, closewerte.size()-1, 5, 5);
+            new Rechner(closewerte, closewerte.size()-1, 5, 5).start();
+            //rechner.unterschiedsVergleicher(closewerte, closewerte.size()-1, 5, 5);
         }
     }
 }

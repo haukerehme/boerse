@@ -21,7 +21,7 @@ public class RunSimulator {
     int anzDeals;
     ArrayList<Integer> vergangenheit;
     ArrayList<Integer> simulationszeitraum;
-    Rechner rechner = new Rechner();
+//    Rechner rechner = new Rechner();
     
     public void run() throws IOException{
         int vergleichslaenge = 120;
@@ -32,13 +32,13 @@ public class RunSimulator {
                 vergangenheit.add(differenz);
                 simulationszeitraum.remove(0);
                 System.out.println("Rechne");
-                if(rechner.unterschiedsVergleicher(vergangenheit, vergangenheit.size()-1, vergleichslaenge,auswertungsstecke)){
-                    //Rechnung für Deal
-                    for(int z = 0; z < auswertungsstecke;z++){
-                        spreadKonto += simulationszeitraum.get(i);
-                    }
-                    spreadKonto -= 2;
-                }
+//                if(rechner.unterschiedsVergleicher(vergangenheit, vergangenheit.size()-1, vergleichslaenge,auswertungsstecke)){
+//                    //Rechnung für Deal
+//                    for(int z = 0; z < auswertungsstecke;z++){
+//                        spreadKonto += simulationszeitraum.get(i);
+//                    }
+//                    spreadKonto -= 2;
+//                }
         }
     }
 

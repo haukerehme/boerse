@@ -19,7 +19,7 @@ public class RaspberryPiBoerse {
     static long stunde = 60 * 60000;
     static long minute = 60000;
     static Converter converter = new Converter();
-    static Rechner rechner = new Rechner();
+//    static Rechner rechner = new Rechner();
     static ArrayOperationen ao = new ArrayOperationen();
     static Dateilogger logger = Dateilogger.getInstance();
     static int analysestrecke = 120;

@@ -11,14 +11,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
  * @author hauke
  */
-public class Rechner {
+public class Rechner extends Thread{
     Dateilogger logger = Dateilogger.getInstance();
+    ArrayList<Integer> closewerte;
+    int ausgangspkt,length,auswertungslaenge;
+    
+    Rechner(ArrayList<Integer> intArray,int ausgangspkt,int length,int auswertungslaenge){
+        closewerte = intArray;
+        this.ausgangspkt =ausgangspkt;
+        this.length = length;
+        this.auswertungslaenge = auswertungslaenge;
+    }
+    
     ArrayList<Integer> unterschiedsArrayFuellen(ArrayList<Integer> alledaten,int ausgangswert, int laenge, int laengeArray1) throws IOException
     {
         ArrayList<Integer> tmp = new ArrayList();
@@ -127,5 +138,14 @@ public class Rechner {
         int vorgaenger_ = (int) (10000*vorgaenger.Closewert);
         int Bezugspkt_ = (int) (10000*Bezugspkt.Closewert);
         return (int)(Bezugspkt_ - vorgaenger_);
+    }
+
+    @Override
+    public void run() {
+        try {
+            unterschiedsVergleicher(closewerte,ausgangspkt,length,auswertungslaenge);
+        } catch (IOException ex) {
+            Logger.getLogger(Rechner.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

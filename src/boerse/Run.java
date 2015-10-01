@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Run {
     Dateilogger logger = Dateilogger.getInstance();
-    Rechner rechner = new Rechner();
+//    Rechner rechner = new Rechner();
     Kursdaten tmp = new Kursdaten();
     Converter converter = new Converter();
     ArrayOperationen ao = new ArrayOperationen();
@@ -60,7 +60,7 @@ public class Run {
                 daten.add(differenz);
                 logger.logge("Rechne");
                 System.out.println("Rechne");
-                rechner.unterschiedsVergleicher(daten, daten.size()-1, vergleichslaenge,auswertungsstecke);
+//                rechner.unterschiedsVergleicher(daten, daten.size()-1, vergleichslaenge,auswertungsstecke);
                 //rechner.unterschiedsVergleicher(daten, daten.size()-1, vergleichslaenge*2);
             }
             

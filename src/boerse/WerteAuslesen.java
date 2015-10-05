@@ -104,7 +104,15 @@ public class WerteAuslesen {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            new Rechner20151002(closewerte, closewerte.size()-1, 15, 20).start();
+            
+            
+            new Rechner20151002(closewerte, closewerte.size()-1, 20, 20).start();
+            new Rechner20151002(closewerte, closewerte.size()-1, 20, 10).start();
+            new Rechner20151002(closewerte, closewerte.size()-1, 20, 5).start();
+            
+            new Rechner20151002(closewerte, closewerte.size()-1, 40, 20).start();
+            new Rechner20151002(closewerte, closewerte.size()-1, 40, 10).start();
+            new Rechner20151002(closewerte, closewerte.size()-1, 40, 5).start();
             //new Rechner(closewerte, closewerte.size()-1, 15, 20).start();
             
             //rechner.unterschiedsVergleicher(closewerte, closewerte.size()-1, 5, 5);

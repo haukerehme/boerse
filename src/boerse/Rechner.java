@@ -112,7 +112,7 @@ public class Rechner extends Thread{
         }
     }
     
-    
+    //ToDo: GuV für Short
     int GuV(ArrayList<Integer> alledaten,int ausgangswert, int analysewert, int laenge)
     {
         int entwicklung = 0;
@@ -120,6 +120,7 @@ public class Rechner extends Thread{
         {
             entwicklung += alledaten.get(ausgangswert+i-1);
         }
+        
         //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
         if(entwicklung > 2)
         {
@@ -131,6 +132,7 @@ public class Rechner extends Thread{
             //System.out.println("Verlust " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
             return 2;
         }
+        
         return 0;
     }
     

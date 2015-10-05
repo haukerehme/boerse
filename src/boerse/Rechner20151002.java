@@ -20,6 +20,7 @@ public class Rechner20151002 extends Thread{
     Rechner rechner = new Rechner();
     ArrayList<Integer> closewerte;
     int ausgangspkt,length,auswertungslaenge;
+    boolean longPosition;
     
     Rechner20151002(ArrayList<Integer> intArray,int ausgangspkt,int length,int auswertungslaenge){
         closewerte = intArray;
@@ -36,8 +37,10 @@ public class Rechner20151002 extends Thread{
     
     void analyse(ArrayList<Integer> intArray,int ausgangspkt,int length,int auswertungslaenge){
         
-        int Gewinnzaehler = 0;
-        int Verlustzaehler = 0;
+        int GewinnzaehlerLong = 0;
+        int VerlustzaehlerLong = 0;
+        int GewinnzaehlerShort = 0;
+        int VerlustzaehlerShort = 0;
         int anzFormFound = 0;
         int anzErsterRight =0;
         boolean formFound;
@@ -60,28 +63,47 @@ public class Rechner20151002 extends Thread{
                     anzFormFound++;
                     
                     int entwicklung = 0;
-                    for(int z =i;z < i+length;z++){
+                    for(int z =i;z < i+this.auswertungslaenge;z++){
                         entwicklung += intArray.get(z);
                     }   
+                    
                         //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
                         if(entwicklung > 2)
                         {
                             //System.out.println("Gewinn " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
-                            Gewinnzaehler++;
+                            GewinnzaehlerLong++;
                         }
 
                         if(entwicklung < 2){
                             //System.out.println("Verlust " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
-                            Verlustzaehler++;
+                            VerlustzaehlerLong++;
                         }
+                    
+                    
+                        //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
+                        if(entwicklung < -2)
+                        {
+                            //System.out.println("Gewinn " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
+                            GewinnzaehlerShort++;
+                        }
+
+                        if(entwicklung > -2){
+                            //System.out.println("Verlust " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
+                            VerlustzaehlerShort++;
+                        }
+                    
                 }
             }
         }
         System.out.println("Formation "+anzFormFound+" mal gefunden!");
-        System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
-        
-        System.out.println("Gewinn "+Gewinnzaehler+" mal gefunden!");
-        System.out.println("Verlust "+Verlustzaehler+" mal gefunden!");
+        //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
+        if(anzFormFound>0){
+            System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+            System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+
+            System.out.println("Short: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+            System.out.println("Short: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+        }
       
     }
     

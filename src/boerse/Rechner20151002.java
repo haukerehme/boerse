@@ -97,7 +97,7 @@ public class Rechner20151002 extends Thread{
         }
         System.out.println("Formation "+anzFormFound+" mal gefunden!");
         //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
-        if(anzFormFound>0){
+        if(anzFormFound>4){
             System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
             System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
 

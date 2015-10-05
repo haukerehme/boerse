@@ -104,8 +104,24 @@ public class WerteAuslesen {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            new Rechner(closewerte, closewerte.size()-1, 5, 5).start();
+            new Rechner20151002(closewerte, closewerte.size()-1, 15, 20).start();
+            //new Rechner(closewerte, closewerte.size()-1, 15, 20).start();
+            
             //rechner.unterschiedsVergleicher(closewerte, closewerte.size()-1, 5, 5);
+            
+            //test closewerte Array
+            /*String myUrl = "jdbc:mysql://localhost:3306/eurusd";
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Verbindungsversuch:");
+            conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
+            query = " insert into closewerteTest(diff)"
+              + " values (?)";
+            for(int i = 0; i < closewerte.size();i++){
+                preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setInt(1, closewerte.get(i));
+                preparedStmt.execute();
+            }
+            System.out.println("Test DB gefüllt");*/
         }
     }
 }

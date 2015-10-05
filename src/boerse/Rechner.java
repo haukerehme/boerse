@@ -29,6 +29,8 @@ public class Rechner extends Thread{
         this.length = length;
         this.auswertungslaenge = auswertungslaenge;
     }
+
+    Rechner() {}
     
     ArrayList<Integer> unterschiedsArrayFuellen(ArrayList<Integer> alledaten,int ausgangswert, int laenge, int laengeArray1) throws IOException
     {
@@ -72,7 +74,7 @@ public class Rechner extends Thread{
             gleich = true;
             for(int z = 0;z<laenge;z++)
             {
-                if( alledaten.get(i+z) != Unterschiedarray.get(z))
+                if( (alledaten.get(i+z) - Unterschiedarray.get(z)) < -1 || (alledaten.get(i+z) - Unterschiedarray.get(z)) > 1)
                 {
                     gleich = false;
                     break;

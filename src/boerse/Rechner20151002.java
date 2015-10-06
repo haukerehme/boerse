@@ -97,13 +97,16 @@ public class Rechner20151002 extends Thread{
         }
         System.out.println("Formation "+anzFormFound+" mal gefunden!");
         //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
-        if(anzFormFound>4){
+        
+        if(anzFormFound>3){
+//            System.out.println("Prozentgewinn "+ ((GewinnzaehlerLong/anzFormFound)*100));
+//                System.out.println("Formation "+anzFormFound+" mal gefunden!");
             System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
             System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
-
             System.out.println("Short: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
             System.out.println("Short: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
         }
+        
       
     }
     

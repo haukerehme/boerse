@@ -8,6 +8,7 @@ package boerse;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,8 +66,10 @@ public class WerteAuslesen {
         
         
         while(true){
-            System.out.println("Arraylänge: " + closewerte.size());
+//            System.out.println("Arraylänge: " + closewerte.size());
             System.out.println("Letzter Eintrag: lastDiff: "+ closewerte.get(closewerte.size()-1));
+            System.out.println("Erster Eintrag 20: FirstDiff: "+ closewerte.get(closewerte.size()-20));
+            System.out.println("Erster Eintrag 30: FirstDiff: "+ closewerte.get(closewerte.size()-30));
             //Aktueller Wert
             wert = 0;
             try{
@@ -105,21 +108,19 @@ public class WerteAuslesen {
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
-            new Rechner20151002(closewerte, closewerte.size()-1, 20, 20).start();
-            new Rechner20151002(closewerte, closewerte.size()-1, 20, 10).start();
-            new Rechner20151002(closewerte, closewerte.size()-1, 20, 5).start();
-            
-            new Rechner20151002(closewerte, closewerte.size()-1, 40, 20).start();
-            new Rechner20151002(closewerte, closewerte.size()-1, 40, 10).start();
-            new Rechner20151002(closewerte, closewerte.size()-1, 40, 5).start();
+            for(int i= 5; i < 21; i=i+5){
+                new Rechner20151002(closewerte, closewerte.size()-1, 20, i).start();
+            }
+            //new Rechner20151002(closewerte, closewerte.size()-1, 30, 20).start();
+            //new Rechner20151002(closewerte, closewerte.size()-1, 30, 10).start();
+            //new Rechner20151002(closewerte, closewerte.size()-1, 30, 5).start();
             //new Rechner(closewerte, closewerte.size()-1, 15, 20).start();
             
             //rechner.unterschiedsVergleicher(closewerte, closewerte.size()-1, 5, 5);
             
             //test closewerte Array
             /*String myUrl = "jdbc:mysql://localhost:3306/eurusd";
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Verbindungsversuch:");
             conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
             query = " insert into closewerteTest(diff)"

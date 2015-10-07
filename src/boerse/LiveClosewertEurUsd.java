@@ -54,7 +54,7 @@ public class LiveClosewertEurUsd{
     {   
         Dateilogger logger = Dateilogger.getInstance();
         double dWert = 0;
-        System.out.println("Hole mir nun Livewert. Warte auf die 59. sek");
+        //System.out.println("Hole mir nun Livewert. Warte auf die 59. sek");
         logger.logge("Hole mir nun Livewert. Warte auf die 59. sek");
         while(true)
         {

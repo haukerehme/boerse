@@ -50,12 +50,16 @@ public class RechnerZusammenfasser extends Thread{
         int anzErsterRight =0;
         boolean formFound;
         List<Integer> akt = getAnalyseArray(length);
-        for(int i = 0; i < intArray.size()-(length);i=i++){
+        for(int i = 0; i < intArray.size()-(length)-this.auswertungslaenge;i++){
             formFound = true;
-            for(int z = 0; z < akt.size();z+=5){   
+            if(
+                        addierer(akt.subList(0, 4)) - addierer(intArray.subList(i, i+4)) < 4 &&
+                        addierer(akt.subList(0, 4)) - addierer(intArray.subList(i, i+4)) > -4
+                        ){
+            for(int z = 4; z < akt.size();z=z+5){   
                 if(
-                        addierer(akt.subList(z, z+5)) - addierer(intArray.subList(i+z, i+z+5)) > 4 ||
-                        addierer(akt.subList(z, z+5)) - addierer(intArray.subList(i+z, i+z+5)) < -4
+                        addierer(akt.subList(z, z+4)) - addierer(intArray.subList(i+z, i+z+4)) >= 4 ||
+                        addierer(akt.subList(z, z+4)) - addierer(intArray.subList(i+z, i+z+4)) <= -4
                         )
                 {
                     formFound = false;
@@ -64,9 +68,8 @@ public class RechnerZusammenfasser extends Thread{
             }
             if(formFound){
                 anzFormFound++;
-                    
                     int entwicklung = 0;
-                    for(int z =i;z < i+this.auswertungslaenge;z++){
+                    for(int z =i+this.length;z < i+this.length+this.auswertungslaenge;z++){
                         entwicklung += intArray.get(z);
                     }   
                     
@@ -96,11 +99,11 @@ public class RechnerZusammenfasser extends Thread{
                         }
                     
                 }
-            
+            }
         }
         System.out.println("Für "+this.length+" Minuten Formation "+anzFormFound+" mal gefunden!");
         //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
-        if(anzFormFound>10 /*&& (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2)*/){
+        if(anzFormFound>10 && (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2)){
             System.out.println("Long: Letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerLong+" mal und Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
             System.out.println("Short: Letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerShort+" mal und Verlust "+VerlustzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
 

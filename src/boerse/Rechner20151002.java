@@ -73,12 +73,11 @@ public class Rechner20151002 extends Thread{
                 if(formFound){
                     anzFormFound++;
                     int entwicklung = 0;
-                    for(int z =i;z < i+this.auswertungslaenge;z++){
+                    for(int z =i+this.length;z < i+this.length+this.auswertungslaenge;z++){
                         entwicklung += intArray.get(z);
                     }   
                         //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
-                        if(entwicklung > 2)
-                        {
+                        if(entwicklung > 2){
                             //System.out.println("Gewinn " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
                             GewinnzaehlerLong++;
                         }
@@ -90,8 +89,7 @@ public class Rechner20151002 extends Thread{
                     
                     
                         //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
-                        if(entwicklung < -2)
-                        {
+                        if(entwicklung < -2){
                             //System.out.println("Gewinn " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
                             GewinnzaehlerShort++;
                         }
@@ -104,7 +102,7 @@ public class Rechner20151002 extends Thread{
             }
         }
         
-        System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
+        //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
         System.out.println("Formation "+anzFormFound+" mal gefunden!");
         if(anzFormFound>5 /*&& (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2)*/){
 //            System.out.println("Prozentgewinn "+ ((GewinnzaehlerLong/anzFormFound)*100));

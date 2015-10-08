@@ -67,9 +67,9 @@ public class WerteAuslesen {
         
         while(true){
 //            System.out.println("Arraylänge: " + closewerte.size());
-            System.out.println("Letzter Eintrag: lastDiff: "+ closewerte.get(closewerte.size()-1));
-            System.out.println("Erster Eintrag 20: FirstDiff: "+ closewerte.get(closewerte.size()-20));
-            System.out.println("Erster Eintrag 30: FirstDiff: "+ closewerte.get(closewerte.size()-30));
+            //System.out.println("Letzter Eintrag: lastDiff: "+ closewerte.get(closewerte.size()-1));
+            //System.out.println("Erster Eintrag 20: FirstDiff: "+ closewerte.get(closewerte.size()-20));
+            //System.out.println("Erster Eintrag 30: FirstDiff: "+ closewerte.get(closewerte.size()-30));
             //Aktueller Wert
             wert = 0;
             try{
@@ -107,10 +107,31 @@ public class WerteAuslesen {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            for(int i= 5; i < 21; i=i+5){
-                new Rechner20151002(closewerte, closewerte.size()-1, 20, i).start();
+            for(int i= 5; i < 41; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20).start();
             }
+           
+            sleep(2000);
+            System.out.println("-");
+            for(int i= 5; i < 31; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10).start();
+            }
+            
+            sleep(2000);
+            System.out.println("-");
+            for(int i= 5; i < 21; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10).start();
+            }
+            
+            sleep(2000);
+            System.out.println("-");
+            for(int i= 5; i < 21; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 60, i,5).start();
+            }
+            sleep(2000);
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
             //new Rechner20151002(closewerte, closewerte.size()-1, 30, 20).start();
             //new Rechner20151002(closewerte, closewerte.size()-1, 30, 10).start();
             //new Rechner20151002(closewerte, closewerte.size()-1, 30, 5).start();

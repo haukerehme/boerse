@@ -60,7 +60,7 @@ public class RechnerNegativ extends Thread{
                     anzFormFound++;
                     
                     int entwicklung = 0;
-                    for(int z =i;z < i+this.auswertungslaenge;z++){
+                    for(int z =i+this.length;z < i+this.length+this.auswertungslaenge;z++){
                         entwicklung += intArray.get(z);
                     }   
                     

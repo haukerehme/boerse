@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class DatenbankController {
     
-    ArrayList<Integer> dbColumInArrayList() throws IOException, ClassNotFoundException, SQLException{
+    ArrayList<Integer> dbEurUsdColumInArrayList() throws IOException, ClassNotFoundException, SQLException{
         ArrayList<Integer> closewerte = new ArrayList();
         ResultSet rs = null;
         Connection conn = null;
@@ -45,11 +45,11 @@ public class DatenbankController {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
-        System.out.println("Diff berechnen:");
+        //System.out.println("Diff berechnen:");
         rs.next();
         double wertAlt = rs.getDouble("wert");
         
-        System.out.println("Ersten Wert ausgelesen");
+        //System.out.println("Ersten Wert ausgelesen");
         double wertNeu;
         int diff;
         while(rs.next()){
@@ -58,8 +58,47 @@ public class DatenbankController {
             closewerte.add(diff);
             wertAlt = wertNeu;
         }
-        System.out.print("Arraylänge: " + closewerte.size());
-        System.out.println("Verbindung wird geschlossen");
+        System.out.print("Arraylänge EURUSD: " + closewerte.size());
+        //System.out.println("Verbindung wird geschlossen");
+        conn.close();
+        return closewerte;
+    }
+    
+    ArrayList<Integer> dbGbpJpyColumInArrayList() throws IOException, ClassNotFoundException, SQLException{
+        ArrayList<Integer> closewerte = new ArrayList();
+        ResultSet rs = null;
+        Connection conn = null;
+        try
+        {
+            // create a mysql database connection
+            String myUrl = "jdbc:mysql://localhost:3306/eurusd";
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Verbindungsversuch:");
+            conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
+            String query = "Select wert From gbpjpy";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            //System.out.println("Resultset:");
+            rs = preparedStmt.executeQuery();
+            
+            } catch (SQLException ex) {
+                logger.loggeWarning("SQL Exception: "+ex.toString());
+                Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        //System.out.println("Diff berechnen:");
+        rs.next();
+        double wertAlt = rs.getDouble("wert");
+        
+        //System.out.println("Ersten Wert ausgelesen");
+        double wertNeu;
+        int diff;
+        while(rs.next()){//RUNDEN!!!!
+            wertNeu = rs.getDouble("wert");
+            diff = (int) (100*wertNeu - 100*wertAlt);
+            closewerte.add(diff);
+            wertAlt = wertNeu;
+        }
+        System.out.print("Arraylänge GBPJPY: " + closewerte.size());
+        //System.out.println("Verbindung wird geschlossen");
         conn.close();
         return closewerte;
     }

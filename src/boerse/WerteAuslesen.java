@@ -32,6 +32,7 @@ public class WerteAuslesen {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, SQLException {
         // TODO code application logic here
         Dateilogger logger = Dateilogger.getInstance();
+        Spread spread = new Spread();
 //        Rechner rechner = new Rechner();
         Kursdaten tmp = new Kursdaten();
         Converter converter = new Converter();
@@ -45,7 +46,7 @@ public class WerteAuslesen {
         Timestamp akt;
         Connection conn = null;
         String query = null;
-        ArrayList<Integer> closewerte = dbCon.dbColumInArrayList();
+        ArrayList<Integer> closewerte = dbCon.dbEurUsdColumInArrayList();
         Kursdaten letzterEintrag = dbCon.lastEntry();
         letzterWert = letzterEintrag.Closewert;
         try
@@ -109,31 +110,31 @@ public class WerteAuslesen {
             }
             
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30).start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusd).start();
             }
             
             sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20).start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusd).start();
             }
             
             sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10).start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusd).start();
             }
            
             sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10).start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusd).start();
             }
             
             sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10).start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusd).start();
             }
             
 //            sleep(2000);

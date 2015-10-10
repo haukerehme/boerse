@@ -30,6 +30,7 @@ public class Simulator {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, SQLException {
         // TODO code application logic here
         Dateilogger logger = Dateilogger.getInstance();
+        Spread spread = new Spread();
 //        Rechner rechner = new Rechner();
         Kursdaten tmp = new Kursdaten();
         Converter converter = new Converter();
@@ -43,7 +44,7 @@ public class Simulator {
         Timestamp akt;
         Connection conn = null;
         String query = null;
-        ArrayList<Integer> closewerte = dbCon.dbColumInArrayList();
+        ArrayList<Integer> closewerte = dbCon.dbEurUsdColumInArrayList();
         Kursdaten letzterEintrag = dbCon.lastEntry();
         letzterWert = letzterEintrag.Closewert;
         try
@@ -91,7 +92,7 @@ public class Simulator {
             int tradeErfolg = 0;
             int tradeMisserfolg = 0;
             for(int i = simuStartPkt; i < simuEndPkt; i++){
-                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen);
+                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen,spread.eurusd);
                 Tradevorhersage trade = rechner.analyse(closewerte.subList(0, i), closewerte.subList(0, i).size() -1, vergleichsstrecke, auswertungsstrecke);
                 if(trade.anzForm > anzahlGefundenerForm){
                     if(trade.wahrscheinlichkeitLong > 70){

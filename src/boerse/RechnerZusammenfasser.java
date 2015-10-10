@@ -17,23 +17,25 @@ public class RechnerZusammenfasser extends Thread{
     Rechner rechner = new Rechner();
     List<Integer> closewerte;
     List<List<Integer>> aktuellerAbschnittUnterteilt;
-    int ausgangspkt,length,auswertungslaenge;
+    int ausgangspkt,vergleichsLaenge,auswertungslaenge;
     boolean longPosition;
     int zusammenfasserInterval;
+    int spread;
     
     
     RechnerZusammenfasser(){}
     
-    RechnerZusammenfasser(List<Integer> intArray,int ausgangspkt,int length,int auswertungslaenge, int zusammenfasserInterval){
+    RechnerZusammenfasser(List<Integer> intArray,int ausgangspkt,int vergleichsLaenge,int auswertungslaenge, int zusammenfasserInterval, int spread){
         closewerte = intArray;
         this.ausgangspkt =ausgangspkt;
-        this.length = length;
+        this.vergleichsLaenge = vergleichsLaenge;
         this.auswertungslaenge = auswertungslaenge;
         this.zusammenfasserInterval = zusammenfasserInterval;
+        this.spread = spread;
     }
     
-    List<Integer> getAnalyseArray(int length){
-        List<Integer> tmp = closewerte.subList(closewerte.size()-(length), closewerte.size()-1);
+    List<Integer> getAnalyseArray(int vergleichsLaenge){
+        List<Integer> tmp = closewerte.subList(closewerte.size()-(vergleichsLaenge), closewerte.size()-1);
         
         return tmp;
     }
@@ -46,7 +48,7 @@ public class RechnerZusammenfasser extends Thread{
         return result;
     }
     
-    Tradevorhersage analyse(List<Integer> intArray, int ausgangspkt,int length,int auswertungslaenge){
+    Tradevorhersage analyse(List<Integer> intArray, int ausgangspkt,int vergleichsLaenge,int auswertungslaenge){
         
         int GewinnzaehlerLong = 0;
         int VerlustzaehlerLong = 0;
@@ -73,17 +75,25 @@ public class RechnerZusammenfasser extends Thread{
         int anzFormFound = 0;
         int anzErsterRight =0;
         boolean formFound;
-        List<Integer> akt = getAnalyseArray(length);
-        for(int i = 0; i < closewerte.size()-(length)-this.auswertungslaenge;i++){
+        List<Integer> akt = getAnalyseArray(vergleichsLaenge);
+        
+        //aktueller Array wird zuvor in sublists unterteilt
+        //  -> Performance verbessern ;)
+        
+        for(int u = 0; u < vergleichsLaenge; u=u+zusammenfasserInterval){
+            aktuellerAbschnittUnterteilt.add(akt.subList(u, u+zusammenfasserInterval-1));
+        }
+        
+        for(int i = 0; i < closewerte.size()-(vergleichsLaenge)-this.auswertungslaenge;i++){
             formFound = true;
             if(
-                        addierer(akt.subList(0, zusammenfasserInterval-1)) - addierer(closewerte.subList(i, i+zusammenfasserInterval-1)) < 4 &&
-                        addierer(akt.subList(0, zusammenfasserInterval-1)) - addierer(closewerte.subList(i, i+zusammenfasserInterval-1)) > -4
+                        addierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte.subList(i, i+zusammenfasserInterval-1)) < 4 &&
+                        addierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte.subList(i, i+zusammenfasserInterval-1)) > -4
                         ){
             for(int z = zusammenfasserInterval-1; z < akt.size();z=z+zusammenfasserInterval){   
                 if(
-                        addierer(akt.subList(z, z+zusammenfasserInterval-1)) - addierer(closewerte.subList(i+z, i+z+zusammenfasserInterval-1)) >= 4 ||
-                        addierer(akt.subList(z, z+zusammenfasserInterval-1)) - addierer(closewerte.subList(i+z, i+z+zusammenfasserInterval-1)) <= -4
+                        addierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte.subList(i+z, i+z+zusammenfasserInterval-1)) >= 4 ||
+                        addierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte.subList(i+z, i+z+zusammenfasserInterval-1)) <= -4
                         )
                 {
                     formFound = false;
@@ -93,7 +103,7 @@ public class RechnerZusammenfasser extends Thread{
             if(formFound){
                 anzFormFound++;
                     int entwicklung = 0;
-                    for(int z =i+this.length;z < i+this.length+this.auswertungslaenge;z++){
+                    for(int z =i+this.vergleichsLaenge;z < i+this.vergleichsLaenge+this.auswertungslaenge;z++){
                         entwicklung += closewerte.get(z);
                     }   
                         if(entwicklung > 0)
@@ -112,28 +122,28 @@ public class RechnerZusammenfasser extends Thread{
                         }
                     
                         //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
-                        if(entwicklung > 2)
+                        if(entwicklung > this.spread)
                         {
                             //System.out.println("Gewinn " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
                             GewinnzaehlerLong++;
-                            if(entwicklung <= 5){
+                            if(entwicklung <= this.spread+3){
                                 geringerLongGewinn++;
                             }
-                            if(entwicklung > 5){
+                            if(entwicklung > this.spread+3){
                                 mittlererLongGewinn++;
                             }
-                            if(entwicklung > 12){
+                            if(entwicklung > this.spread+9){
                                 hoherLongGewinn++;
                             }
-                            if(entwicklung > 17){
+                            if(entwicklung > this.spread+15){
                                 sehrHoherLongGewinn++;
                             }
-                            if(entwicklung > 8){
+                            if(entwicklung > this.spread+6){
                                 hoherShortVerlust++;
                             }
                         }
 
-                        if(entwicklung < 2){
+                        if(entwicklung < this.spread){
                             //System.out.println("Verlust " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
                             VerlustzaehlerLong++;
                             
@@ -141,26 +151,26 @@ public class RechnerZusammenfasser extends Thread{
                     
                     
                         //bei Gewinn wird 1 zurückgegeben, bei Verlust 2 und wenn es gleich geblieben ist 0.
-                        if(entwicklung < -2)
+                        if(entwicklung < -this.spread)
                         {
                             //System.out.println("Gewinn " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
                             GewinnzaehlerShort++;
                             
-                            if(entwicklung >= -5){
+                            if(entwicklung >= -this.spread-3){
                                 geringerShortGewinn++;
                             }
-                            if(entwicklung < -5){
+                            if(entwicklung < -this.spread-3){
                                 mittlererShortGewinn++;
                             }
-                            if(entwicklung < -12){
+                            if(entwicklung < -this.spread-10){
                                 hoherShortGewinn++;
                             }
-                            if(entwicklung < -17){
+                            if(entwicklung < -this.spread-15){
                                 sehrHoherShortGewinn++;
                             }
                         }
 
-                        if(entwicklung > -2){
+                        if(entwicklung > -this.spread){
                             //System.out.println("Verlust " + alledaten.get(ausgangswert).zeitdatum + " " + alledaten.get(ausgangswert).Closewert);
                             VerlustzaehlerShort++;
                         }
@@ -170,16 +180,16 @@ public class RechnerZusammenfasser extends Thread{
         }
         if(anzFormFound>3){
             /*System.out.print("\033[32mGENERELL:  \033[37m");
-            System.out.println(this.length+" Minuten:");
+            System.out.println(this.vergleichsLaenge+" Minuten:");
             System.out.print("STEIGT: "+GenerellPlus+"/"+anzFormFound+" , "+hohesPlus+"/"+GenerellPlus+"  ");
             System.out.println("FÄLLT: "+GenerellMinus+"/"+anzFormFound+" , "+hohesMinus+"/"+GenerellMinus+"     "+this.auswertungslaenge+" MINUTEN\n");*/
                
-            //System.out.println("Für "+this.length+" Minuten Formation "+anzFormFound+" mal gefunden! Generell "+GenerellPlus+" mal Plus davon "+hohesPlus+" mal hohes Plus und "+GenerellMinus+" mal Minus davon "+hohesMinus+" mal hohes Minus nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Für "+this.vergleichsLaenge+" Minuten Formation "+anzFormFound+" mal gefunden! Generell "+GenerellPlus+" mal Plus davon "+hohesPlus+" mal hohes Plus und "+GenerellMinus+" mal Minus davon "+hohesMinus+" mal hohes Minus nach "+this.auswertungslaenge+" Minuten!");
         }
         //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
         if(anzFormFound>5 && (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2)){
-            //System.out.println("Long: Letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerLong+" mal davon hoher Gewinn "+hoherLongGewinn+" mal und Verlust "+VerlustzaehlerLong+" mal davon"+hoherLongVerlust+" mal hoher Verlust gefunden nach "+this.auswertungslaenge+" Minuten!");
-            //System.out.println("Short: Letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerShort+" mal davon hoher Gewinn "+hoherShortGewinn+" mal und Verlust "+VerlustzaehlerShort+" mal davon"+hoherShortVerlust+" mal hoher Verlust gefunden nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Long: Letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerLong+" mal davon hoher Gewinn "+hoherLongGewinn+" mal und Verlust "+VerlustzaehlerLong+" mal davon"+hoherLongVerlust+" mal hoher Verlust gefunden nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Short: Letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerShort+" mal davon hoher Gewinn "+hoherShortGewinn+" mal und Verlust "+VerlustzaehlerShort+" mal davon"+hoherShortVerlust+" mal hoher Verlust gefunden nach "+this.auswertungslaenge+" Minuten!");
             
             System.out.println("\033[31mTRADEN:\033[37m");
             System.out.println("Long:   GEWINN: "+GewinnzaehlerLong+"/"+anzFormFound+" , "+sehrHoherLongGewinn+"/"+GewinnzaehlerLong+" , "+hoherLongGewinn+"/"+GewinnzaehlerLong+" , "+mittlererLongGewinn+"/"+GewinnzaehlerLong+" , "+geringerLongGewinn+"/"+GewinnzaehlerLong);
@@ -188,11 +198,11 @@ public class RechnerZusammenfasser extends Thread{
             System.out.println("Short:   GEWINN: "+GewinnzaehlerShort+"/"+anzFormFound+" , "+sehrHoherShortGewinn+"/"+GewinnzaehlerShort+" , "+hoherShortGewinn+"/"+GewinnzaehlerLong+" , "+mittlererShortGewinn+"/"+GewinnzaehlerLong+" , "+geringerShortGewinn+"/"+GewinnzaehlerLong);
             System.out.println("Short:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort);
 
-            //System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
-            //System.out.println("Long: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Long: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Long: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
 
-            //System.out.println("Short: Geschaut auf die letzten "+this.length+" Minuten. Gewinn "+GewinnzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
-            //System.out.println("Short: Geschaut auf die letzten "+this.length+" Minuten. Verlust "+VerlustzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Short: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
+            //System.out.println("Short: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Verlust "+VerlustzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
         }
         double wahrscheinlichkeitLong = 100* (double) GewinnzaehlerLong / ((double) GewinnzaehlerLong+(double) VerlustzaehlerLong);
         double wahrscheinlichkeitShort = 100* (double) GewinnzaehlerShort / ((double) GewinnzaehlerShort+(double) VerlustzaehlerShort);
@@ -202,6 +212,6 @@ public class RechnerZusammenfasser extends Thread{
     
     @Override
     public void run() {
-        analyse(this.closewerte,this.ausgangspkt,this.length,this.auswertungslaenge);
+        analyse(this.closewerte,this.ausgangspkt,this.vergleichsLaenge,this.auswertungslaenge);
     }
 }

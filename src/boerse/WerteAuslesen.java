@@ -107,31 +107,39 @@ public class WerteAuslesen {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            for(int i= 5; i < 41; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30).start();
+            }
+            
+            sleep(2000);
+//            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20).start();
             }
+            
+            sleep(2000);
+//            System.out.println("-");
+            for(int i= 5; i < 31; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10).start();
+            }
            
             sleep(2000);
-            System.out.println("-");
+//            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10).start();
             }
             
             sleep(2000);
-            System.out.println("-");
+//            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10).start();
             }
             
-            sleep(2000);
-            System.out.println("-");
-            for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 60, i,5).start();
-            }
-            sleep(2000);
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
+//            sleep(2000);
+//            System.out.println("-");
+//            System.out.println("-");
+//            System.out.println("-");
             //new Rechner20151002(closewerte, closewerte.size()-1, 30, 20).start();
             //new Rechner20151002(closewerte, closewerte.size()-1, 30, 10).start();
             //new Rechner20151002(closewerte, closewerte.size()-1, 30, 5).start();

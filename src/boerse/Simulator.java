@@ -63,51 +63,68 @@ public class Simulator {
         }
         
         
-        while(true){
+        
 //            System.out.println("Arraylänge: " + closewerte.size());
             //System.out.println("Letzter Eintrag: lastDiff: "+ closewerte.get(closewerte.size()-1));
             //System.out.println("Erster Eintrag 20: FirstDiff: "+ closewerte.get(closewerte.size()-20));
             //System.out.println("Erster Eintrag 30: FirstDiff: "+ closewerte.get(closewerte.size()-30));
             //Aktueller Wert
-            wert = 0;
-            try{
-                wert = liveInstanz.getClosewert();
-                int diff = (int) (10000*wert - 10000*letzterWert);
-                closewerte.add(diff);
-                letzterWert = wert;
-            }catch(Exception e){
-                logger.logge("getCloseWert Fail\n");
-                logger.logge(e.toString());
-            }
-            cl = Calendar.getInstance();
-            akt = new Timestamp(cl.getTimeInMillis());
-            if(akt.getSeconds() < 59){
-                akt.setMinutes(akt.getMinutes()-1);
-            }
-            akt.setSeconds(59);   
-            BufferedWriter bw = new BufferedWriter(new FileWriter("/home/test.csv",true));
-            bw.write(akt.toString()+";"+wert);
-            bw.newLine();
-            bw.flush();
+            
+            
             //-> Die aktuelle Zeit
             //Wert + Uhrzeit in DB schreiben
             // create the mysql insert preparedstatement
             // the mysql insert statement
           
-            PreparedStatement preparedStmt = null;
-            try {
-                preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setTimestamp(1, akt);
-                preparedStmt.setDouble(2, wert);
-                // execute the preparedstatement
-                preparedStmt.execute();
-            } catch (SQLException ex) {
-                logger.loggeWarning("SQL Exception: "+ex.toString());
-                Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
+            
+            
+            int auswertungsstrecke = 40;
+            int vergleichsstrecke = 180;
+            int anzZusammenfassen = 10;
+            int simuStartPkt = closewerte.size()-200000;
+            int simuEndPkt = closewerte.size()-100000-180;
+            int anzahlGefundenerForm = 10;
+            float prozentsatzPositiv = 70;
+            
+            RechnerZusammenfasser rechner; 
+            int entwicklung = 0;
+            int tradeErfolg = 0;
+            int tradeMisserfolg = 0;
+            for(int i = simuStartPkt; i < simuEndPkt; i++){
+                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen);
+                Tradevorhersage trade = rechner.analyse(closewerte.subList(0, i), closewerte.subList(0, i).size() -1, vergleichsstrecke, auswertungsstrecke);
+                if(trade.anzForm > anzahlGefundenerForm){
+                    if(trade.wahrscheinlichkeitLong > 70){
+                        for(int z =i+vergleichsstrecke;z < i+vergleichsstrecke+auswertungsstrecke;z++){
+                            entwicklung += closewerte.get(z);
+                        }
+                        if(entwicklung > -2){
+                            tradeErfolg++;
+                        }
+                        if(entwicklung < 2){
+                            tradeMisserfolg++;
+                        }
+                    }
+                    if(trade.wahrscheinlichkeitShort > 70){
+                        for(int z =i+vergleichsstrecke;z < i+vergleichsstrecke+auswertungsstrecke;z++){
+                            entwicklung += closewerte.get(z);
+                        }
+                        if(entwicklung < -2){
+                            tradeErfolg++;
+                        }
+                        if(entwicklung > -2){
+                            tradeMisserfolg++;
+                        }
+                    }
+                }
             }
+            String ausgabe = "Simuliert wurde Vergleichsstrecke: "+ vergleichsstrecke +"\nAuswertungsstrecke: "+ auswertungsstrecke + "\nProzentsatz: "+ prozentsatzPositiv+" von "+ simuStartPkt+" bis "+simuEndPkt;
+            ausgabe = ausgabe + "\nAnzahl gefundener Formationen um zu traden: " + anzahlGefundenerForm + "\nAnzahl Zusammenfasser" + anzZusammenfassen;
+            logger.loggeInDatei( ausgabe + "\nErfolge: "+tradeErfolg+" Misserfolge: "+tradeMisserfolg+ " Gewonnene Punkte: " +entwicklung, "SimulatorErgebnis.txt");
+            
             
             
             
         }
-    }
+    
 }

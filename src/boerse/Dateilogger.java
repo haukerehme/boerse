@@ -25,6 +25,13 @@ public class Dateilogger {
         bw.newLine();
         bw.flush();
     }
+    public void loggeInDatei(String text,String dateiPfadName) throws IOException
+    {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(dateiPfadName,true));
+        bw.write(text);
+        bw.newLine();
+        bw.flush();
+    }
     public void loggeWarning(String text) throws IOException
     {
         BufferedWriter bw = new BufferedWriter(new FileWriter("Warning.txt",true));

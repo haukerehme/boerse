@@ -11,4 +11,5 @@ package boerse;
  */
 public class Spread {
     int eurusd = 2;
+    int gbpjpy = 4;
 }

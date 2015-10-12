@@ -13,12 +13,18 @@ public class Tradevorhersage {
     
     double wahrscheinlichkeitShort;
     double wahrscheinlichkeitLong;
+    double wahrscheinlichkeitLongHoherGewinn;
+    double wahrscheinlichkeitShortHoherGewinn;
     int anzForm;
     
-    Tradevorhersage(int anzForm, double wahrscheinlichkeitLong, double wahrscheinlichkeitShort){
+    Tradevorhersage(int anzForm, double wahrscheinlichkeitLong, double wahrscheinlichkeitShort, double wahrscheinlichkeitLongHoherGewinn, double wahrscheinlichkeitShortHoherGewinn){
         this.anzForm = anzForm;
         this.wahrscheinlichkeitLong = wahrscheinlichkeitLong;
         this.wahrscheinlichkeitShort = wahrscheinlichkeitShort;
+        
+        this.wahrscheinlichkeitLongHoherGewinn = wahrscheinlichkeitLongHoherGewinn;
+        this.wahrscheinlichkeitShortHoherGewinn = wahrscheinlichkeitShortHoherGewinn;
+        
     }
     
 }

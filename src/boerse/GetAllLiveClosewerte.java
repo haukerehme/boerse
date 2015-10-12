@@ -24,7 +24,7 @@ public class GetAllLiveClosewerte {
         int i = 1;
         String text;
         try {
-            Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/gpbjpy.html").openStream());
+            Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/").openStream());
             while (scanner.hasNextLine()) {
                 if(i == 13)
                 {
@@ -65,5 +65,35 @@ public class GetAllLiveClosewerte {
                 return Double.parseDouble(eurusd);                                             
              }
         }
+    } 
+    
+    public Double getGBPJPYWert() throws MalformedURLException {
+        StringBuilder sb = new StringBuilder();
+        int i = 1;
+        String text;
+        try {
+            Scanner scanner = new Scanner(new URL("http://62.75.142.111/getGBPJPY.php").openStream());
+            while (scanner.hasNextLine()) {
+                //System.out.println(scanner.nextLine());
+                if(i == 2)
+                {
+                    //System.out.println(scanner.nextLine());
+                    sb.append(scanner.nextLine() + "\n");
+                    /*System.out.println(sb.indexOf(">")+1);
+                    System.out.println(sb.indexOf("</"));
+                    System.out.println(sb.substring(6, sb.indexOf("</")));*/
+                    break;
+                }
+                scanner.nextLine();
+                i++;
+            }
+            scanner.close();
+        } catch (MalformedURLException e) {
+        e.printStackTrace();
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        //return sb.toString();
+        return Double.parseDouble(sb.substring(6, sb.indexOf("</")));
     } 
 }

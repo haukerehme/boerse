@@ -47,21 +47,6 @@ public class Simulator {
         ArrayList<Integer> closewerte = dbCon.dbEurUsdColumInArrayList();
         Kursdaten letzterEintrag = dbCon.lastEntry();
         letzterWert = letzterEintrag.Closewert;
-        try
-        {
-          //create a mysql database connection
-          String myUrl = "jdbc:mysql://localhost:3306/eurusd";
-          Class.forName("com.mysql.jdbc.Driver");
-          System.out.println("Verbindungsversuch:");
-          conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
-          query = " insert into closewerte (zeit,wert)"
-            + " values (?, ?)";
-        }
-        catch (Exception e)
-        {
-          System.err.println("Got an exception!");
-          System.err.println(e.getMessage());
-        }
         
         
         
@@ -79,7 +64,7 @@ public class Simulator {
           
             
             
-            int auswertungsstrecke = 40;
+            int auswertungsstrecke = 30;
             int vergleichsstrecke = 180;
             int anzZusammenfassen = 10;
             int simuStartPkt = closewerte.size()-200000;
@@ -92,21 +77,23 @@ public class Simulator {
             int tradeErfolg = 0;
             int tradeMisserfolg = 0;
             for(int i = simuStartPkt; i < simuEndPkt; i++){
-                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen,spread.eurusd);
+                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen,spread.eurusd,"EUR/USD");
                 Tradevorhersage trade = rechner.analyse(closewerte.subList(0, i), closewerte.subList(0, i).size() -1, vergleichsstrecke, auswertungsstrecke);
                 if(trade.anzForm > anzahlGefundenerForm){
-                    if(trade.wahrscheinlichkeitLong > 70){
+                    if(trade.wahrscheinlichkeitLong > 70 && trade.wahrscheinlichkeitLongHoherGewinn > 50){
+                        
                         for(int z =i+vergleichsstrecke;z < i+vergleichsstrecke+auswertungsstrecke;z++){
                             entwicklung += closewerte.get(z);
                         }
-                        if(entwicklung > -2){
+                        if(entwicklung > 2){
                             tradeErfolg++;
                         }
                         if(entwicklung < 2){
                             tradeMisserfolg++;
                         }
+                        
                     }
-                    if(trade.wahrscheinlichkeitShort > 70){
+                    if(trade.wahrscheinlichkeitShort > 70 && trade.wahrscheinlichkeitShortHoherGewinn > 50){
                         for(int z =i+vergleichsstrecke;z < i+vergleichsstrecke+auswertungsstrecke;z++){
                             entwicklung += closewerte.get(z);
                         }

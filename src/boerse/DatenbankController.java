@@ -128,4 +128,30 @@ public class DatenbankController {
         conn.close();
         return kd;
     }
+    
+    public Kursdaten lastEntryGbpJpy() throws ClassNotFoundException, IOException, SQLException{
+        Kursdaten kd = new Kursdaten();
+        ResultSet rs = null;
+        Connection conn = null;
+        try
+        {
+            // create a mysql database connection
+            String myUrl = "jdbc:mysql://localhost:3306/eurusd";
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Verbindungsversuch:");
+            conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
+            String query = "Select wert,zeit From gbpjpy order by zeit DESC Limit 1";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            System.out.println("Resultset:");
+            rs = preparedStmt.executeQuery();
+            rs.next();
+            kd.Closewert = rs.getDouble("wert");
+            kd.zeitdatum = rs.getTimestamp("zeit"); 
+        } catch (SQLException ex) {
+            logger.loggeWarning("SQL Exception: "+ex.toString());
+            Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conn.close();
+        return kd;
+    }
 }

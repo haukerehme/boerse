@@ -10,6 +10,6 @@ package boerse;
  * @author hrs
  */
 public class Spread {
-    int eurusd = 2;
-    int gbpjpy = 4;
+    int eurusd = 1;
+    int gbpjpy = 3;
 }

@@ -142,56 +142,39 @@ public class WerteAuslesen {
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusd,"EUR/USD").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusd,"EUR/USD").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusd,"EUR/USD").start();
             }
-           
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusd,"EUR/USD").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusd,"EUR/USD").start();
             }
             
             //GBP/JPY
-            sleep(2000);
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 240, i, 30,spread.gbpjpy,"GBP/JPY").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 180, i, 20,spread.gbpjpy,"GBP/JPY").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 150, i, 10,spread.gbpjpy,"GBP/JPY").start();
             }
-           
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 120, i, 10,spread.gbpjpy,"GBP/JPY").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 90, i, 10,spread.gbpjpy,"GBP/JPY").start();
@@ -200,60 +183,42 @@ public class WerteAuslesen {
             
             
             //Plus500
-            sleep(1500);
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusdPlus500,"EUR/USD").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusdPlus500,"EUR/USD").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusdPlus500,"EUR/USD").start();
             }
-           
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusdPlus500,"EUR/USD").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusdPlus500,"EUR/USD").start();
             }
             
             //GBP/JPY
-            sleep(2000);
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 240, i, 30,spread.gbpjpyPlus500,"GBP/JPY").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 180, i, 20,spread.gbpjpyPlus500,"GBP/JPY").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 150, i, 10,spread.gbpjpyPlus500,"GBP/JPY").start();
             }
-           
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 120, i, 10,spread.gbpjpyPlus500,"GBP/JPY").start();
             }
-            
-            sleep(2000);
 //            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 90, i, 10,spread.gbpjpyPlus500,"GBP/JPY").start();

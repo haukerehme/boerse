@@ -42,12 +42,28 @@ public class RechnerZusammenfasser extends Thread{
         return tmp;
     }
     
-    int addierer(List<Integer> liste){
+    int sublistAddierer(List<Integer> liste){
         int result = 0;
         for (Integer differenz : liste) {
             result += differenz;
         }
         return result;
+    }
+    
+    int addierer(List<Integer> liste, int startIndex, int endIndex){
+        int result = 0;
+        for(int i = startIndex; i <= endIndex;i++){
+            result += liste.get(i);
+        }
+        return result;
+    }
+    
+    List<Integer> createSublist(List<Integer> liste, int startIndex, int endIndex){
+        List<Integer> tmp = new ArrayList<>();
+        for(int i = 0; i <= endIndex;i++){
+            tmp.add(liste.get(i));
+        }
+        return tmp;
     }
     
     Tradevorhersage analyse(List<Integer> intArray, int ausgangspkt,int vergleichsLaenge,int auswertungslaenge){
@@ -89,13 +105,13 @@ public class RechnerZusammenfasser extends Thread{
         for(int i = 0; i < closewerte.size()-(vergleichsLaenge)-this.auswertungslaenge;i++){
             formFound = true;
             if(
-                        addierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte.subList(i, i+zusammenfasserInterval-1)) < 4 &&
-                        addierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte.subList(i, i+zusammenfasserInterval-1)) > -4
+                        sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) < 4 &&
+                        sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) > -4
                         ){
             for(int z = zusammenfasserInterval-1; z < akt.size();z=z+zusammenfasserInterval){   
                 if(
-                        addierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte.subList(i+z, i+z+zusammenfasserInterval-1)) >= 4 ||
-                        addierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte.subList(i+z, i+z+zusammenfasserInterval-1)) <= -4
+                        sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) >= 4 ||
+                        sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) <= -4
                         )
                 {
                     formFound = false;
@@ -184,14 +200,14 @@ public class RechnerZusammenfasser extends Thread{
                 }
             }
         }
-        if(anzFormFound>3){
+        //if(anzFormFound>3){
             /*System.out.print("\033[32mGENERELL:  \033[37m");
             System.out.println(this.vergleichsLaenge+" Minuten:");
             System.out.print("STEIGT: "+GenerellPlus+"/"+anzFormFound+" , "+hohesPlus+"/"+GenerellPlus+"  ");
             System.out.println("FÄLLT: "+GenerellMinus+"/"+anzFormFound+" , "+hohesMinus+"/"+GenerellMinus+"     "+this.auswertungslaenge+" MINUTEN\n");*/
                
             //System.out.println("Für "+this.vergleichsLaenge+" Minuten Formation "+anzFormFound+" mal gefunden! Generell "+GenerellPlus+" mal Plus davon "+hohesPlus+" mal hohes Plus und "+GenerellMinus+" mal Minus davon "+hohesMinus+" mal hohes Minus nach "+this.auswertungslaenge+" Minuten!");
-        }
+        //}
         
         //System.out.println("Ersten "+anzErsterRight+" mal gefunden!");
         if(anzFormFound>9 && (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2)){
@@ -203,14 +219,14 @@ public class RechnerZusammenfasser extends Thread{
             }else{
                 plattform = "Plus500";
             }
-            
-            System.out.println("\033[31mTRADEN: Plattform: "+ plattform +" Instrument: "+this.instrument+" "+this.vergleichsLaenge +"min "+this.auswertungslaenge+"min\033[37m");
-            System.out.println("Long:   GEWINN: "+GewinnzaehlerLong+"/"+anzFormFound+" , "+sehrHoherLongGewinn+"/"+GewinnzaehlerLong+" , "+hoherLongGewinn+"/"+GewinnzaehlerLong+" , "+mittlererLongGewinn+"/"+GewinnzaehlerLong+" , "+geringerLongGewinn+"/"+GewinnzaehlerLong);
-            System.out.println("Long:   VERLUST: "+VerlustzaehlerLong+"/"+anzFormFound+" , "+hoherLongVerlust+"/"+VerlustzaehlerLong);
+            String ausgabe = "";
+            ausgabe += "\033[31mTRADEN: Plattform: "+ plattform +" Instrument: "+this.instrument+" "+this.vergleichsLaenge +"min "+this.auswertungslaenge+"min\033[37m";
+            ausgabe += "\nLong:   GEWINN: "+GewinnzaehlerLong+"/"+anzFormFound+" , "+sehrHoherLongGewinn+"/"+GewinnzaehlerLong+" , "+hoherLongGewinn+"/"+GewinnzaehlerLong+" , "+mittlererLongGewinn+"/"+GewinnzaehlerLong+" , "+geringerLongGewinn+"/"+GewinnzaehlerLong;
+            ausgabe += "\nLong:   VERLUST: "+VerlustzaehlerLong+"/"+anzFormFound+" , "+hoherLongVerlust+"/"+VerlustzaehlerLong;
 
-            System.out.println("Short:   GEWINN: "+GewinnzaehlerShort+"/"+anzFormFound+" , "+sehrHoherShortGewinn+"/"+GewinnzaehlerShort+" , "+hoherShortGewinn+"/"+GewinnzaehlerShort+" , "+mittlererShortGewinn+"/"+GewinnzaehlerShort+" , "+geringerShortGewinn+"/"+GewinnzaehlerShort);
-            System.out.println("Short:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort);
-
+            ausgabe += "\nShort:   GEWINN: "+GewinnzaehlerShort+"/"+anzFormFound+" , "+sehrHoherShortGewinn+"/"+GewinnzaehlerShort+" , "+hoherShortGewinn+"/"+GewinnzaehlerShort+" , "+mittlererShortGewinn+"/"+GewinnzaehlerShort+" , "+geringerShortGewinn+"/"+GewinnzaehlerShort;
+            ausgabe += "\nShort:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort+"\n";
+            System.out.print(ausgabe);
             //System.out.println("Long: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
             //System.out.println("Long: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
 

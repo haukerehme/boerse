@@ -47,14 +47,6 @@ public class Simulator {
         ArrayList<Integer> closewerte = dbCon.dbEurUsdColumInArrayList();
         Kursdaten letzterEintrag = dbCon.lastEntry();
         letzterWert = letzterEintrag.Closewert;
-        
-        
-        
-//            System.out.println("Arraylänge: " + closewerte.size());
-            //System.out.println("Letzter Eintrag: lastDiff: "+ closewerte.get(closewerte.size()-1));
-            //System.out.println("Erster Eintrag 20: FirstDiff: "+ closewerte.get(closewerte.size()-20));
-            //System.out.println("Erster Eintrag 30: FirstDiff: "+ closewerte.get(closewerte.size()-30));
-            //Aktueller Wert
             
             
             //-> Die aktuelle Zeit
@@ -64,8 +56,8 @@ public class Simulator {
           
             
             
-            int auswertungsstrecke = 30;
-            int vergleichsstrecke = 180;
+            int auswertungsstrecke = 20;
+            int vergleichsstrecke = 120;
             int anzZusammenfassen = 10;
             int simuStartPkt = closewerte.size()-200000;
             int simuEndPkt = closewerte.size()-100000-180;
@@ -108,7 +100,7 @@ public class Simulator {
             }
             String ausgabe = "Simuliert wurde Vergleichsstrecke: "+ vergleichsstrecke +"\nAuswertungsstrecke: "+ auswertungsstrecke + "\nProzentsatz: "+ prozentsatzPositiv+" von "+ simuStartPkt+" bis "+simuEndPkt;
             ausgabe = ausgabe + "\nAnzahl gefundener Formationen um zu traden: " + anzahlGefundenerForm + "\nAnzahl Zusammenfasser" + anzZusammenfassen;
-            logger.loggeInDatei( ausgabe + "\nErfolge: "+tradeErfolg+" Misserfolge: "+tradeMisserfolg+ " Gewonnene Punkte: " +entwicklung, "SimulatorErgebnis.txt");
+            logger.loggeInDatei( ausgabe + "\nErfolge: "+tradeErfolg+" Misserfolge: "+tradeMisserfolg+ " Gewonnene Punkte: " +entwicklung, "SimulatorErgebnis1.txt");
             
             
             

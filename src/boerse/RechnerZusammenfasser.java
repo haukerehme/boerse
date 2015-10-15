@@ -37,7 +37,7 @@ public class RechnerZusammenfasser extends Thread{
     }
     
     List<Integer> getAnalyseArray(int vergleichsLaenge){
-        List<Integer> tmp = closewerte.subList(closewerte.size()-(vergleichsLaenge), closewerte.size()-1);
+        List<Integer> tmp = closewerte.subList(closewerte.size()-(vergleichsLaenge+1), closewerte.size()-1);
         
         return tmp;
     }
@@ -94,24 +94,32 @@ public class RechnerZusammenfasser extends Thread{
         int anzErsterRight =0;
         boolean formFound;
         List<Integer> akt = getAnalyseArray(vergleichsLaenge);
-        aktuellerAbschnittUnterteilt = new ArrayList<List<Integer>>();
+        //System.out.println("Size akt-Array: " + akt.size());
+        //System.out.println("Zusammenfasser: "+ this.zusammenfasserInterval);
+        //aktuellerAbschnittUnterteilt = new ArrayList<List<Integer>>();
         
         //aktueller Array wird zuvor in sublists unterteilt
         //  -> Performance verbessern ;)
-        for(int u = 0; u < akt.size(); u=u+zusammenfasserInterval){
+        /*for(int u = 0; u < akt.size(); u=u+zusammenfasserInterval){
             aktuellerAbschnittUnterteilt.add(akt.subList(u, u+zusammenfasserInterval-1));
-        }
-        
+        }*/
+        //System.out.println("Arraygröße: "+aktuellerAbschnittUnterteilt.size());
         for(int i = 0; i < closewerte.size()-(vergleichsLaenge)-this.auswertungslaenge;i++){
             formFound = true;
             if(
-                        sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) < 4 &&
-                        sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) > -4
+                        //sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) < 4 &&
+                        //sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) > -4
+                    
+                        addierer(akt,0,zusammenfasserInterval-1) - addierer(closewerte,i, i+zusammenfasserInterval-1) < 4 &&
+                        addierer(akt,0,zusammenfasserInterval-1) - addierer(closewerte,i, i+zusammenfasserInterval-1) > -4
                         ){
-            for(int z = zusammenfasserInterval-1; z < akt.size();z=z+zusammenfasserInterval){   
+            for(int z = zusammenfasserInterval; z < akt.size();z=z+zusammenfasserInterval){   
                 if(
-                        sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) >= 4 ||
-                        sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) <= -4
+                        //sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z+1, i+z+zusammenfasserInterval) >= 4 ||
+                        //sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z+1, i+z+zusammenfasserInterval) <= -4
+                        
+                        addierer(akt,z,zusammenfasserInterval-1) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) >= 4 ||
+                        addierer(akt,z,zusammenfasserInterval-1) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) <= -4
                         )
                 {
                     formFound = false;

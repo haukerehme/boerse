@@ -96,4 +96,34 @@ public class GetAllLiveClosewerte {
         //return sb.toString();
         return Double.parseDouble(sb.substring(6, sb.indexOf("</")));
     } 
+    
+    public Double getAUDUSDWert() throws MalformedURLException {
+        StringBuilder sb = new StringBuilder();
+        int i = 1;
+        String text;
+        try {
+            Scanner scanner = new Scanner(new URL("http://62.75.142.111/getAUDUSD.php").openStream());
+            while (scanner.hasNextLine()) {
+                //System.out.println(scanner.nextLine());
+                if(i == 2)
+                {
+                    //System.out.println(scanner.nextLine());
+                    sb.append(scanner.nextLine() + "\n");
+                    /*System.out.println(sb.indexOf(">")+1);
+                    System.out.println(sb.indexOf("</"));
+                    System.out.println(sb.substring(6, sb.indexOf("</")));*/
+                    break;
+                }
+                scanner.nextLine();
+                i++;
+            }
+            scanner.close();
+        } catch (MalformedURLException e) {
+        e.printStackTrace();
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        //return sb.toString();
+        return Double.parseDouble(sb.substring(6, sb.indexOf("</")));
+    } 
 }

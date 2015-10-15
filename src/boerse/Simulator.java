@@ -29,6 +29,9 @@ public class Simulator {
      */
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, SQLException {
         // TODO code application logic here
+        Calendar cl = Calendar.getInstance();;
+        long startZeit = cl.getTimeInMillis();
+        
         Dateilogger logger = Dateilogger.getInstance();
         Spread spread = new Spread();
 //        Rechner rechner = new Rechner();
@@ -40,7 +43,7 @@ public class Simulator {
         LiveClosewertEurUsd liveInstanz = new LiveClosewertEurUsd();
         double letzterWert;
         double wert;
-        Calendar cl;
+        
         Timestamp akt;
         Connection conn = null;
         String query = null;
@@ -98,9 +101,11 @@ public class Simulator {
                     }
                 }
             }
+            long endZeit = cl.getTimeInMillis();
+            long gesamtzeit = endZeit-startZeit;
             String ausgabe = "Simuliert wurde Vergleichsstrecke: "+ vergleichsstrecke +"\nAuswertungsstrecke: "+ auswertungsstrecke + "\nProzentsatz: "+ prozentsatzPositiv+" von "+ simuStartPkt+" bis "+simuEndPkt;
             ausgabe = ausgabe + "\nAnzahl gefundener Formationen um zu traden: " + anzahlGefundenerForm + "\nAnzahl Zusammenfasser" + anzZusammenfassen;
-            logger.loggeInDatei( ausgabe + "\nErfolge: "+tradeErfolg+" Misserfolge: "+tradeMisserfolg+ " Gewonnene Punkte: " +entwicklung, "SimulatorErgebnis1.txt");
+            logger.loggeInDatei( ausgabe + "\nErfolge: "+tradeErfolg+" Misserfolge: "+tradeMisserfolg+ " Gewonnene Punkte: " +entwicklung, "SimulatorErgebnis1.txt\n Dauer in millis: " +gesamtzeit);
             
             
             

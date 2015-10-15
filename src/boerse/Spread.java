@@ -12,6 +12,7 @@ package boerse;
 public class Spread {
     int eurusd = 1;
     int gbpjpy = 3;
+    int audusd = 1;
     int eurusdPlus500 = 2;
     int gbpjpyPlus500 = 4;
 }

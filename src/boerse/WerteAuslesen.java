@@ -42,22 +42,26 @@ public class WerteAuslesen {
         LiveClosewertEurUsd liveInstanz = new LiveClosewertEurUsd();
         GetAllLiveClosewerte getAllLive = new GetAllLiveClosewerte();
         double eurusdLetzterWert, gbpjpyLetzterWert;
-        double eurusdWert, gpbjpyWert;
+        double eurusdWert, gpbjpyWert, audusdWert,audusdLetzterWert;
         Calendar cl;
         Timestamp akt;
         Connection conn = null;
         
         String queryEurusd = null;
-        String queryGbpjpy = null;
+        //String queryGbpjpy = null;
+        String queryAudusd = null;
         
         ArrayList<Integer> closewerte = dbCon.dbEurUsdColumInArrayList();
-        ArrayList<Integer> gbpjpyDiffwerte = dbCon.dbGbpJpyColumInArrayList();
+        //ArrayList<Integer> gbpjpyDiffwerte = dbCon.dbGbpJpyColumInArrayList();
+        ArrayList<Integer> audusdDiffwerte = dbCon.dbAudUsdColumInArrayList();
         
         Kursdaten letzterEintragEurUsd = dbCon.lastEntry();
-        Kursdaten letzterEintragGbpJpy = dbCon.lastEntryGbpJpy();
+        //Kursdaten letzterEintragGbpJpy = dbCon.lastEntryGbpJpy();
+        Kursdaten letzterEintragAudUsd = dbCon.lastEntryAudUsd();
         
-        gbpjpyLetzterWert = letzterEintragGbpJpy.Closewert;
+        //gbpjpyLetzterWert = letzterEintragGbpJpy.Closewert;
         eurusdLetzterWert = letzterEintragEurUsd.Closewert;
+        audusdLetzterWert = letzterEintragAudUsd.Closewert;
         try
         {
           //create a mysql database connection
@@ -67,7 +71,9 @@ public class WerteAuslesen {
           conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
           queryEurusd = " insert into closewerte (zeit,wert)"
             + " values (?, ?)";
-          queryGbpjpy = " insert into gbpjpy (zeit,wert)"
+          //queryGbpjpy = " insert into gbpjpy (zeit,wert)"
+            //+ " values (?, ?)";
+          queryAudusd = " insert into audusd (zeit,wert)"
             + " values (?, ?)";
         }
         catch (Exception e)
@@ -84,17 +90,23 @@ public class WerteAuslesen {
             //System.out.println("Erster Eintrag 30: FirstDiff: "+ closewerte.get(closewerte.size()-30));
             //Aktueller Wert
             eurusdWert = 0;
-            gpbjpyWert = 0;
+            //gpbjpyWert = 0;
+            audusdWert = 0;
             try{
                 eurusdWert = liveInstanz.getClosewert();
                 int diff = (int) (10000*eurusdWert - 10000*eurusdLetzterWert);
                 closewerte.add(diff);
                 eurusdLetzterWert = eurusdWert;
                 
-                gpbjpyWert = getAllLive.getGBPJPYWert();
+                /*gpbjpyWert = getAllLive.getGBPJPYWert();
                 int diffGbpjpy = (int) (100*gpbjpyWert - 100*gbpjpyLetzterWert);
                 gbpjpyDiffwerte.add(diffGbpjpy);
-                gbpjpyLetzterWert = gpbjpyWert;
+                gbpjpyLetzterWert = gpbjpyWert;*/
+                
+                audusdWert = getAllLive.getAUDUSDWert();
+                int diffAudusd = (int) (10000*audusdWert - 10000*audusdLetzterWert);
+                audusdDiffwerte.add(diffAudusd);
+                audusdLetzterWert = audusdWert;
             }catch(Exception e){
                 logger.logge("getCloseWert Fail\n");
                 logger.logge(e.toString());
@@ -127,7 +139,7 @@ public class WerteAuslesen {
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            preparedStmt = null;
+            /*preparedStmt = null;
             try {
                 preparedStmt = conn.prepareStatement(queryGbpjpy);
                 preparedStmt.setTimestamp(1, akt);
@@ -137,12 +149,29 @@ public class WerteAuslesen {
             } catch (SQLException ex) {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
             
+            preparedStmt = null;
+            try {
+                preparedStmt = conn.prepareStatement(queryAudusd);
+                preparedStmt.setTimestamp(1, akt);
+                preparedStmt.setDouble(2, audusdWert);
+                // execute the preparedstatement
+                preparedStmt.execute();
+            } catch (SQLException ex) {
+                logger.loggeWarning("SQL Exception: "+ex.toString());
+                Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, 20, 30,spread.eurusd,"EUR/USD").start();
+            //new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, 5, 10,spread.eurusd,"EUR/USD").start();
+
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusd,"EUR/USD").start();
             }
 //            System.out.println("-");
+            for(int i= 5; i < 41; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 210, i, 25,spread.eurusd,"EUR/USD").start();
+            }
             for(int i= 5; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusd,"EUR/USD").start();
             }
@@ -151,33 +180,36 @@ public class WerteAuslesen {
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusd,"EUR/USD").start();
             }
 //            System.out.println("-");
-            for(int i= 5; i < 31; i=i+5){
+            for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusd,"EUR/USD").start();
             }
 //            System.out.println("-");
-            for(int i= 5; i < 21; i=i+5){
+            for(int i= 5; i < 16; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusd,"EUR/USD").start();
             }
             
-            //GBP/JPY
+            //AUD/USD
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 240, i, 30,spread.gbpjpy,"GBP/JPY").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 240, i, 30,spread.audusd,"AUD/USD").start();
+            }
+            for(int i= 5; i < 41; i=i+5){
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 210, i, 25,spread.audusd,"AUD/USD").start();
             }
 //            System.out.println("-");
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 180, i, 20,spread.gbpjpy,"GBP/JPY").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 180, i, 20,spread.audusd,"AUD/USD").start();
             }
 //            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 150, i, 10,spread.gbpjpy,"GBP/JPY").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 120, i, 10,spread.gbpjpy,"GBP/JPY").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 150, i, 10,spread.audusd,"AUD/USD").start();
             }
 //            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 90, i, 10,spread.gbpjpy,"GBP/JPY").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 120, i, 10,spread.audusd,"AUD/USD").start();
+            }
+//            System.out.println("-");
+            for(int i= 5; i < 16; i=i+5){
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 90, i, 10,spread.audusd,"AUD/USD").start();
             }
             
             
@@ -195,34 +227,15 @@ public class WerteAuslesen {
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusdPlus500,"EUR/USD").start();
             }
 //            System.out.println("-");
-            for(int i= 5; i < 31; i=i+5){
+            for(int i= 5; i < 21; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusdPlus500,"EUR/USD").start();
             }
 //            System.out.println("-");
-            for(int i= 5; i < 21; i=i+5){
+            for(int i= 5; i < 16; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusdPlus500,"EUR/USD").start();
             }
             
-            //GBP/JPY
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 240, i, 30,spread.gbpjpyPlus500,"GBP/JPY").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 180, i, 20,spread.gbpjpyPlus500,"GBP/JPY").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 150, i, 10,spread.gbpjpyPlus500,"GBP/JPY").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 120, i, 10,spread.gbpjpyPlus500,"GBP/JPY").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(gbpjpyDiffwerte, gbpjpyDiffwerte.size()-1, 90, i, 10,spread.gbpjpyPlus500,"GBP/JPY").start();
-            }
+            
         }
     }
 }

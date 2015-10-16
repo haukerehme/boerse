@@ -17,14 +17,40 @@ public class Tradevorhersage {
     double wahrscheinlichkeitShortHoherGewinn;
     int anzForm;
     
+    
+    int GewinnzaehlerLong;
+    int VerlustzaehlerLong;
+        
+    int GewinnzaehlerShort;
+    int VerlustzaehlerShort;
+        
+    int GenerellPlus;
+    int GenerellMinus;
+    int hohesMinus;
+    int hohesPlus ;
+        
+    int hoherLongVerlust;
+    int geringerLongGewinn;
+    int mittlererLongGewinn;
+    int hoherLongGewinn;
+    int sehrHoherLongGewinn;
+        
+    int geringerShortGewinn;
+    int mittlererShortGewinn;
+    int hoherShortGewinn;
+    int sehrHoherShortGewinn;
+    int hoherShortVerlust;
+    int anzFormFound;
+    
+    Tradevorhersage(){}
+    
     Tradevorhersage(int anzForm, double wahrscheinlichkeitLong, double wahrscheinlichkeitShort, double wahrscheinlichkeitLongHoherGewinn, double wahrscheinlichkeitShortHoherGewinn){
         this.anzForm = anzForm;
         this.wahrscheinlichkeitLong = wahrscheinlichkeitLong;
         this.wahrscheinlichkeitShort = wahrscheinlichkeitShort;
         
         this.wahrscheinlichkeitLongHoherGewinn = wahrscheinlichkeitLongHoherGewinn;
-        this.wahrscheinlichkeitShortHoherGewinn = wahrscheinlichkeitShortHoherGewinn;
-        
+        this.wahrscheinlichkeitShortHoherGewinn = wahrscheinlichkeitShortHoherGewinn;   
     }
     
 }

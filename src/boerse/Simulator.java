@@ -72,8 +72,8 @@ public class Simulator {
             int tradeErfolg = 0;
             int tradeMisserfolg = 0;
             for(int i = simuStartPkt; i < simuEndPkt; i++){
-                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen,spread.eurusd,"EUR/USD");
-                Tradevorhersage trade = rechner.analyse(closewerte.subList(0, i), closewerte.subList(0, i).size() -1, vergleichsstrecke, auswertungsstrecke);
+                rechner = new RechnerZusammenfasser( closewerte.subList(0, i), closewerte.subList(0, i).size() -1,vergleichsstrecke,auswertungsstrecke, anzZusammenfassen,spread.eurusd,"EUR/USD",false,true);
+                Tradevorhersage trade = rechner.analyse(/*closewerte.subList(0, i), closewerte.subList(0, i).size() -1, vergleichsstrecke, auswertungsstrecke*/);
                 if(trade.anzForm > anzahlGefundenerForm){
                     if(trade.wahrscheinlichkeitLong > 70 && trade.wahrscheinlichkeitLongHoherGewinn > 50){
                         

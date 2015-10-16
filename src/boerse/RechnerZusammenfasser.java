@@ -18,7 +18,7 @@ public class RechnerZusammenfasser extends Thread{
     List<Integer> closewerte;
     List<List<Integer>> aktuellerAbschnittUnterteilt;
     int ausgangspkt,vergleichsLaenge,auswertungslaenge;
-    boolean longPosition;
+    boolean longPosition, mehrereVergleichsstrecken, SimulatorModus;
     int zusammenfasserInterval;
     int spread;
     String instrument;
@@ -26,7 +26,7 @@ public class RechnerZusammenfasser extends Thread{
     
     RechnerZusammenfasser(){}
     
-    RechnerZusammenfasser(List<Integer> intArray,int ausgangspkt,int vergleichsLaenge,int auswertungslaenge, int zusammenfasserInterval, int spread, String instrument){
+    public RechnerZusammenfasser(List<Integer> intArray,int ausgangspkt,int vergleichsLaenge,int auswertungslaenge, int zusammenfasserInterval, int spread, String instrument, boolean mehrereVergleichsstrecken, boolean Simulatormodus){
         closewerte = intArray;
         this.ausgangspkt =ausgangspkt;
         this.vergleichsLaenge = vergleichsLaenge;
@@ -34,10 +34,12 @@ public class RechnerZusammenfasser extends Thread{
         this.zusammenfasserInterval = zusammenfasserInterval;
         this.spread = spread;
         this.instrument = instrument;
+        this.mehrereVergleichsstrecken = mehrereVergleichsstrecken;
+        this.SimulatorModus = Simulatormodus;
     }
     
     List<Integer> getAnalyseArray(int vergleichsLaenge){
-        List<Integer> tmp = closewerte.subList(closewerte.size()-(vergleichsLaenge+1), closewerte.size()-1);
+        List<Integer> tmp = closewerte.subList(closewerte.size()-(vergleichsLaenge), closewerte.size());
         
         return tmp;
     }
@@ -58,15 +60,15 @@ public class RechnerZusammenfasser extends Thread{
         return result;
     }
     
-    List<Integer> createSublist(List<Integer> liste, int startIndex, int endIndex){
+    /*List<Integer> createSublist(List<Integer> liste, int startIndex, int endIndex){
         List<Integer> tmp = new ArrayList<>();
         for(int i = 0; i <= endIndex;i++){
             tmp.add(liste.get(i));
         }
         return tmp;
-    }
+    }*/
     
-    Tradevorhersage analyse(List<Integer> intArray, int ausgangspkt,int vergleichsLaenge,int auswertungslaenge){
+    Tradevorhersage analyse(/*int ausgangspkt,int vergleichsLaenge,int auswertungslaenge*/){
         
         int GewinnzaehlerLong = 0;
         int VerlustzaehlerLong = 0;
@@ -104,7 +106,7 @@ public class RechnerZusammenfasser extends Thread{
             aktuellerAbschnittUnterteilt.add(akt.subList(u, u+zusammenfasserInterval-1));
         }*/
         //System.out.println("Arraygröße: "+aktuellerAbschnittUnterteilt.size());
-        for(int i = 0; i < closewerte.size()-(vergleichsLaenge)-this.auswertungslaenge;i++){
+        for(int i = 0; i < closewerte.size()-(vergleichsLaenge+this.auswertungslaenge);i++){
             formFound = true;
             if(
                         //sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) < 4 &&
@@ -118,13 +120,20 @@ public class RechnerZusammenfasser extends Thread{
                         //sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z+1, i+z+zusammenfasserInterval) >= 4 ||
                         //sublistAddierer(aktuellerAbschnittUnterteilt.get((z+1)/zusammenfasserInterval)) - addierer(closewerte,i+z+1, i+z+zusammenfasserInterval) <= -4
                         
-                        addierer(akt,z,zusammenfasserInterval-1) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) >= 4 ||
-                        addierer(akt,z,zusammenfasserInterval-1) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) <= -4
+                        addierer(akt,z,z+zusammenfasserInterval-1) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) >= 4 ||
+                        addierer(akt,z,z+zusammenfasserInterval-1) - addierer(closewerte,i+z, i+z+zusammenfasserInterval-1) <= -4
                         )
                 {
                     formFound = false;
                     break;
                 }
+            }
+            if(
+                    (addierer(akt,0,akt.size()-1) - addierer(closewerte,i, akt.size()-1) >= (this.vergleichsLaenge / 10)) ||
+                    (addierer(akt,0,akt.size()-1) - addierer(closewerte,i, akt.size()-1) <= -(this.vergleichsLaenge /10 ))
+                    ){
+                            System.out.println("Vom Endgegner abgelehnt!!!");
+                            formFound = false;
             }
             if(formFound){
                 anzFormFound++;
@@ -222,35 +231,64 @@ public class RechnerZusammenfasser extends Thread{
             //System.out.println("Long: Letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerLong+" mal davon hoher Gewinn "+hoherLongGewinn+" mal und Verlust "+VerlustzaehlerLong+" mal davon"+hoherLongVerlust+" mal hoher Verlust gefunden nach "+this.auswertungslaenge+" Minuten!");
             //System.out.println("Short: Letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerShort+" mal davon hoher Gewinn "+hoherShortGewinn+" mal und Verlust "+VerlustzaehlerShort+" mal davon"+hoherShortVerlust+" mal hoher Verlust gefunden nach "+this.auswertungslaenge+" Minuten!");
             String plattform;
-            if(this.spread == 1 || this.spread == 3){
+            //if(this.spread == 1 || this.spread == 3){
                 plattform = "IG";
-            }else{
+            /*}else{
                 plattform = "Plus500";
-            }
+            }*/
+                
             String ausgabe = "";
-            ausgabe += "\033[31mTRADEN: Plattform: "+ plattform +" Instrument: "+this.instrument+" "+this.vergleichsLaenge +"min "+this.auswertungslaenge+"min\033[37m";
+            if(this.spread == 1){
+            ausgabe += "\033[31mTRADEN: Plattform: "+ plattform +" Instrument: "+this.instrument+" "+this.vergleichsLaenge +"min "+this.auswertungslaenge+"min\033[0m";
+            }else{
+                ausgabe += "\033[33mTRADEN: Plattform: "+ plattform +" Instrument: "+this.instrument+" "+this.vergleichsLaenge +"min "+this.auswertungslaenge+"min\033[0m";
+
+            }
             ausgabe += "\nLong:   GEWINN: "+GewinnzaehlerLong+"/"+anzFormFound+" , "+sehrHoherLongGewinn+"/"+GewinnzaehlerLong+" , "+hoherLongGewinn+"/"+GewinnzaehlerLong+" , "+mittlererLongGewinn+"/"+GewinnzaehlerLong+" , "+geringerLongGewinn+"/"+GewinnzaehlerLong;
             ausgabe += "\nLong:   VERLUST: "+VerlustzaehlerLong+"/"+anzFormFound+" , "+hoherLongVerlust+"/"+VerlustzaehlerLong;
 
             ausgabe += "\nShort:   GEWINN: "+GewinnzaehlerShort+"/"+anzFormFound+" , "+sehrHoherShortGewinn+"/"+GewinnzaehlerShort+" , "+hoherShortGewinn+"/"+GewinnzaehlerShort+" , "+mittlererShortGewinn+"/"+GewinnzaehlerShort+" , "+geringerShortGewinn+"/"+GewinnzaehlerShort;
             ausgabe += "\nShort:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort+"\n";
             System.out.print(ausgabe);
-            //System.out.println("Long: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
-            //System.out.println("Long: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Verlust "+VerlustzaehlerLong+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
-
-            //System.out.println("Short: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Gewinn "+GewinnzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
-            //System.out.println("Short: Geschaut auf die letzten "+this.vergleichsLaenge+" Minuten. Verlust "+VerlustzaehlerShort+" mal gefunden nach "+this.auswertungslaenge+" Minuten!");
         }
+        
         double wahrscheinlichkeitLong = 100* (double) GewinnzaehlerLong / ((double) GewinnzaehlerLong+(double) VerlustzaehlerLong);
         double wahrscheinlichkeitShort = 100* (double) GewinnzaehlerShort / ((double) GewinnzaehlerShort+(double) VerlustzaehlerShort);
         double wahrscheinlichkeitLongHoherGewinn = 100* (double) hoherLongGewinn / ((double) GewinnzaehlerLong);
         double wahrscheinlichkeitShortHoherGewinn = 100* (double) hoherShortGewinn / ((double) GewinnzaehlerShort);
         
-        return new Tradevorhersage(anzFormFound, wahrscheinlichkeitLong, wahrscheinlichkeitShort,wahrscheinlichkeitLongHoherGewinn,wahrscheinlichkeitShortHoherGewinn);
+        if(mehrereVergleichsstrecken){
+            Tradevorhersage trade = new Tradevorhersage();
+            
+            trade.GenerellMinus = GenerellMinus;
+            trade.GenerellPlus = GenerellPlus;
+            trade.GewinnzaehlerLong = GewinnzaehlerLong;
+            trade.GewinnzaehlerShort = GewinnzaehlerShort;
+            trade.VerlustzaehlerLong = VerlustzaehlerLong;
+            trade.VerlustzaehlerShort = VerlustzaehlerShort;
+            trade.anzFormFound = anzFormFound;
+            trade.geringerLongGewinn = geringerLongGewinn;
+            trade.geringerShortGewinn = geringerShortGewinn;
+            trade.hoherLongGewinn = hoherLongGewinn;
+            trade.hoherLongVerlust = hoherLongVerlust;
+            trade.hoherShortGewinn = hoherShortGewinn;
+            trade.hoherShortVerlust = hoherShortVerlust;
+            trade.hohesMinus = hohesMinus;
+            trade.hohesPlus = hohesPlus;
+            trade.mittlererLongGewinn = mittlererLongGewinn;
+            trade.mittlererShortGewinn = mittlererShortGewinn;
+            trade.sehrHoherLongGewinn = sehrHoherLongGewinn;
+            trade.sehrHoherShortGewinn = sehrHoherShortGewinn;
+            return trade;
+        }
+        if( SimulatorModus ){
+            return new Tradevorhersage(anzFormFound, wahrscheinlichkeitLong, wahrscheinlichkeitShort,wahrscheinlichkeitLongHoherGewinn,wahrscheinlichkeitShortHoherGewinn);
+        }
+        return null;
     }
     
     @Override
     public void run() {
-        analyse(this.closewerte,this.ausgangspkt,this.vergleichsLaenge,this.auswertungslaenge);
+        analyse(/*this.ausgangspkt,this.vergleichsLaenge,this.auswertungslaenge*/);
     }
 }

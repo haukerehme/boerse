@@ -5,8 +5,6 @@
  */
 package boerse;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
@@ -16,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -162,80 +161,51 @@ public class WerteAuslesen {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, 20, 30,spread.eurusd,"EUR/USD").start();
-            //new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, 5, 10,spread.eurusd,"EUR/USD").start();
-
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusd,"EUR/USD").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 210, i, 25,spread.eurusd,"EUR/USD").start();
+            
+            //EUR/USD
+            for(int i= 10; i < 41; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusd,"EUR/USD",false,false).start();
             }
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusd,"EUR/USD").start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 210, i, 30,spread.eurusd,"EUR/USD",false,false).start();
             }
-//            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusd,"EUR/USD").start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusd,"EUR/USD",false,false).start();
             }
-//            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusd,"EUR/USD").start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusd,"EUR/USD",false,false).start();
             }
-//            System.out.println("-");
+            for(int i= 5; i < 21; i=i+5){
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusd,"EUR/USD",false,false).start();
+            }
             for(int i= 5; i < 16; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusd,"EUR/USD").start();
+                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusd,"EUR/USD",false,false).start();
             }
             
             //AUD/USD
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 240, i, 30,spread.audusd,"AUD/USD").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 240, i, 30,spread.audusd,"AUD/USD",false,false).start();
             }
             for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 210, i, 25,spread.audusd,"AUD/USD").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 210, i, 30,spread.audusd,"AUD/USD",false,false).start();
             }
-//            System.out.println("-");
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 180, i, 20,spread.audusd,"AUD/USD").start();
-            }
-//            System.out.println("-");
             for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 150, i, 10,spread.audusd,"AUD/USD").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 180, i, 20,spread.audusd,"AUD/USD",false,false).start();
             }
-//            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 120, i, 10,spread.audusd,"AUD/USD").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 150, i, 10,spread.audusd,"AUD/USD",false,false).start();
             }
-//            System.out.println("-");
-            for(int i= 5; i < 16; i=i+5){
-                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 90, i, 10,spread.audusd,"AUD/USD").start();
-            }
-            
-            
-            
-            //Plus500
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusdPlus500,"EUR/USD").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 41; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 180, i, 20,spread.eurusdPlus500,"EUR/USD").start();
-            }
-//            System.out.println("-");
-            for(int i= 5; i < 31; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 150, i, 10,spread.eurusdPlus500,"EUR/USD").start();
-            }
-//            System.out.println("-");
             for(int i= 5; i < 21; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 120, i, 10,spread.eurusdPlus500,"EUR/USD").start();
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 120, i, 10,spread.audusd,"AUD/USD",false,false).start();
             }
-//            System.out.println("-");
             for(int i= 5; i < 16; i=i+5){
-                new RechnerZusammenfasser(closewerte, closewerte.size()-1, 90, i, 10,spread.eurusdPlus500,"EUR/USD").start();
-            }
+                new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 90, i, 10,spread.audusd,"AUD/USD",false,false).start();
+            }          
             
-            
+            sleep(2000);
+            //Gesamtanalyseergebnis der nächsten 20 min
+//            new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
+            //new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, List<Integer> Vergleichsstrecken, 20, List<Integer> Zusammenfassintervalle,spread.eurusd,"EUR/USD",true,false).start();        
         }
     }
 }

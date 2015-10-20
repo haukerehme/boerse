@@ -4,7 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/WerteAuslesen.java</file>
-            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/LiveClosewertEurUsd.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/RechnerZusammenfasser.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/Rechner_alt.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/Simulator.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/DatenbankController.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/TestGetGbpjpy.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/Tradevorhersage.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/AnalyseMehererVergleichsstrecken.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/FindIndex.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/GetAllLiveClosewerte.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/Spread.java</file>
+            <file>file:/Users/administrator/NetBeansProjects/boerse/src/boerse/NewMain.java</file>
         </group>
     </open-files>
 </project-private>

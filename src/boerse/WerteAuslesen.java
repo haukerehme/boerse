@@ -163,7 +163,7 @@ public class WerteAuslesen {
             }
             
             //EUR/USD
-            for(int i= 10; i < 41; i=i+5){
+           /* for(int i= 10; i < 41; i=i+5){
                 new RechnerZusammenfasser(closewerte, closewerte.size()-1, 240, i, 30,spread.eurusd,"EUR/USD",false,false).start();
             }
             for(int i= 5; i < 41; i=i+5){
@@ -200,11 +200,12 @@ public class WerteAuslesen {
             }
             for(int i= 5; i < 16; i=i+5){
                 new RechnerZusammenfasser(audusdDiffwerte, audusdDiffwerte.size()-1, 90, i, 10,spread.audusd,"AUD/USD",false,false).start();
-            }          
+            }    */      
             
-            sleep(2000);
+//            sleep(2000);
             //Gesamtanalyseergebnis der nächsten 20 min
-//            new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
+            new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
+            new AnalyseMehererVergleichsstrecken(audusdDiffwerte, audusdDiffwerte.size()-1, null , 20, spread.audusd, "AUD/USD").start();
             //new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, List<Integer> Vergleichsstrecken, 20, List<Integer> Zusammenfassintervalle,spread.eurusd,"EUR/USD",true,false).start();        
         }
     }

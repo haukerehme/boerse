@@ -128,12 +128,14 @@ public class RechnerZusammenfasser extends Thread{
                     break;
                 }
             }
-            if(
-                    (addierer(akt,0,akt.size()-1) - addierer(closewerte,i, akt.size()-1) >= (this.vergleichsLaenge / 10)) ||
-                    (addierer(akt,0,akt.size()-1) - addierer(closewerte,i, akt.size()-1) <= -(this.vergleichsLaenge /10 ))
-                    ){
-                            System.out.println("Vom Endgegner abgelehnt!!!");
-                            formFound = false;
+            if(formFound){
+                if(
+                        (addierer(akt,0,akt.size()-1) - addierer(closewerte,i, akt.size()-1) >= (this.vergleichsLaenge / 10)) ||
+                        (addierer(akt,0,akt.size()-1) - addierer(closewerte,i, akt.size()-1) <= -(this.vergleichsLaenge /10 ))
+                        ){
+                                //System.out.println("Vom Endgegner abgelehnt!!!");
+                                formFound = false;
+                }
             }
             if(formFound){
                 anzFormFound++;

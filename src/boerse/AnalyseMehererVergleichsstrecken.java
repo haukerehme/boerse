@@ -14,7 +14,10 @@ import com.sun.mail.smtp.SMTPTransport;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Message;
+import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
@@ -131,6 +134,11 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
             ausgabe += "\nShort:   GEWINN: "+GewinnzaehlerShort+"/"+anzFormFound+" , "+sehrHoherShortGewinn+"/"+GewinnzaehlerShort+" , "+hoherShortGewinn+"/"+GewinnzaehlerShort+" , "+mittlererShortGewinn+"/"+GewinnzaehlerShort+" , "+geringerShortGewinn+"/"+GewinnzaehlerShort;
             ausgabe += "\nShort:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort+"\n";
             System.out.print(ausgabe);
+            try {
+                sendMail("haukekatha","43mitmilch","hrs@logentis.de","katharina_kroener@web.de","Handeln",ausgabe);
+            } catch (MessagingException ex) {
+                Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

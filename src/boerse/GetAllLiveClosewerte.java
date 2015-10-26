@@ -25,7 +25,7 @@ public class GetAllLiveClosewerte {
         int i = 1;
         String text;
         try {
-            Scanner scanner = new Scanner(new URL("http://62.75.142.111/getGBPJPY.php").openStream());
+            Scanner scanner = new Scanner(new URL("http://62.75.142.111/eurusd.php").openStream());
             while (scanner.hasNextLine()) {
                 //System.out.println(scanner.nextLine());
                 if(i == 2)

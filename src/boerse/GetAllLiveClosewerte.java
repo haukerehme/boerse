@@ -19,16 +19,23 @@ import java.util.Scanner;
 public class GetAllLiveClosewerte {
     static long stunde = 60 * 60000;
     Dateilogger logger = Dateilogger.getInstance();
-    public String getEurUsdWert() throws MalformedURLException {
+    
+    public double getEurUsdWert() throws MalformedURLException {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         String text;
         try {
-            Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/").openStream());
+            Scanner scanner = new Scanner(new URL("http://62.75.142.111/getGBPJPY.php").openStream());
             while (scanner.hasNextLine()) {
-                if(i == 13)
+                //System.out.println(scanner.nextLine());
+                if(i == 2)
                 {
+                    //System.out.println(scanner.nextLine());
                     sb.append(scanner.nextLine() + "\n");
+                    /*System.out.println(sb.indexOf(">")+1);
+                    System.out.println(sb.indexOf("</"));
+                    System.out.println(sb.substring(6, sb.indexOf("</")));*/
+                    break;
                 }
                 scanner.nextLine();
                 i++;
@@ -39,7 +46,8 @@ public class GetAllLiveClosewerte {
         } catch (IOException e) {
         e.printStackTrace();
         }
-        return sb.toString();
+        //return sb.toString();
+        return Double.parseDouble(sb.substring(6, sb.indexOf("</")));
     } 
     
     public double getClosewert() throws IOException, InterruptedException
@@ -59,10 +67,8 @@ public class GetAllLiveClosewerte {
             {
                 logger.logge("59. Sekunde!!!   Uhrzeit: "+tmp.toString());
                 System.out.println("59. sek WUWU  Uhrzeit: "+tmp.toString());
-                String eurusd = getEurUsdWert();
-                eurusd = eurusd.substring(8, 14);
                 Thread.sleep(1000);
-                return Double.parseDouble(eurusd);                                             
+                return getEurUsdWert();                                             
              }
         }
     } 

@@ -92,7 +92,7 @@ public class WerteAuslesen {
             //gpbjpyWert = 0;
             audusdWert = 0;
             try{
-                eurusdWert = liveInstanz.getClosewert();
+                eurusdWert = getAllLive.getClosewert();
                 int diff = (int) (10000*eurusdWert - 10000*eurusdLetzterWert);
                 closewerte.add(diff);
                 eurusdLetzterWert = eurusdWert;
@@ -127,22 +127,10 @@ public class WerteAuslesen {
             // the mysql insert statement
           
             PreparedStatement preparedStmt = null;
-            try {
+            /*try {
                 preparedStmt = conn.prepareStatement(queryEurusd);
                 preparedStmt.setTimestamp(1, akt);
                 preparedStmt.setDouble(2, eurusdWert);
-                // execute the preparedstatement
-                preparedStmt.execute();
-            } catch (SQLException ex) {
-                logger.loggeWarning("SQL Exception: "+ex.toString());
-                Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            /*preparedStmt = null;
-            try {
-                preparedStmt = conn.prepareStatement(queryGbpjpy);
-                preparedStmt.setTimestamp(1, akt);
-                preparedStmt.setDouble(2, gpbjpyWert);
                 // execute the preparedstatement
                 preparedStmt.execute();
             } catch (SQLException ex) {
@@ -204,7 +192,7 @@ public class WerteAuslesen {
             
 //            sleep(2000);
             //Gesamtanalyseergebnis der nächsten 20 min
-            new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
+            //new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
             new AnalyseMehererVergleichsstrecken(audusdDiffwerte, audusdDiffwerte.size()-1, null , 20, spread.audusd, "AUD/USD").start();
             //new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, List<Integer> Vergleichsstrecken, 20, List<Integer> Zusammenfassintervalle,spread.eurusd,"EUR/USD",true,false).start();        
         }

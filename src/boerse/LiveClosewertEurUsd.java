@@ -32,7 +32,7 @@ public class LiveClosewertEurUsd{
             else{
                logger.loggeWarning("Failed "+inet.toString());
             }*/
-            Scanner scanner = new Scanner(new URL("http://bigmac.mi.ecs.hs-osnabrueck.de/~kakroene/").openStream());
+            Scanner scanner = new Scanner(new URL("http://62.75.142.111/eurusd.php").openStream());
             while (scanner.hasNextLine()) {
                 if(i == 13)
                 {
@@ -47,6 +47,7 @@ public class LiveClosewertEurUsd{
         } catch (IOException e) {
         e.printStackTrace();
         }
+        System.out.println(sb.toString());
         return sb.toString();
     } 
     

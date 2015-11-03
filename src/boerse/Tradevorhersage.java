@@ -53,4 +53,14 @@ public class Tradevorhersage {
         this.wahrscheinlichkeitShortHoherGewinn = wahrscheinlichkeitShortHoherGewinn;   
     }
     
+    double Auswertung(double startWert, int differenzEndpunkt, double spread, boolean longTrade) {
+        double schlusswert = (startWert + (differenzEndpunkt/10000));
+        startWert -= spread;
+        double guv = (schlusswert - startWert) / startWert;
+        if(!longTrade){
+            guv *= -1;
+        }
+        return guv;
+    }
+    
 }

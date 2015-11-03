@@ -66,7 +66,7 @@ public class GetAllLiveClosewerte {
             if(tmp.getSeconds() == 59)
             {
                 logger.logge("59. Sekunde!!!   Uhrzeit: "+tmp.toString());
-                System.out.println("59. sek WUWU  Uhrzeit: "+tmp.toString());
+                System.out.print("59. sek WUWU  Uhrzeit: "+tmp.toString());
                 Thread.sleep(1000);
                 return getEurUsdWert();                                             
              }

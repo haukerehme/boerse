@@ -120,7 +120,7 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
         rechner = new RechnerZusammenfasser(this.closewerte, this.closewerte.size()-1, 120, auswertungslaenge, 10,spread,"EUR/USD",true,false);  
         tradeTmp = rechner.analyse(/*this.closewerte, this.closewerte.size()-1, 240, auswertungslaenge*/);
         addiere(tradeTmp);
-        
+        System.out.println(" Formation "+anzFormFound+" mal gefunden");
         if(anzFormFound>19 && (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2 || (hoherLongGewinn > hoherLongVerlust*2 && hoherLongGewinn > 4 )||(hoherShortGewinn > hoherShortVerlust*2 && hoherShortGewinn > 4))){
             String ausgabe = "";
             if(this.spread == 1){

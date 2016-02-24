@@ -1,0 +1,18 @@
+Simuliert wurde Vergleichsstrecke: 120
+Auswertungsstrecke: 20
+Prozentsatz: 70.0 von 2291512 bis 2291515
+Anzahl gefundener Formationen um zu traden: 10
+Anzahl Zusammenfasser10
+Erfolge: 0 Misserfolge: 0 Gewonnene Punkte: 0Dauer in millis: 0
+Simuliert wurde Vergleichsstrecke: 120
+Auswertungsstrecke: 20
+Prozentsatz: 70.0 von 2292946 bis 2292955
+Anzahl gefundener Formationen um zu traden: 10
+Anzahl Zusammenfasser10
+Erfolge: 0 Misserfolge: 0 Gewonnene Punkte: 0Dauer in millis: 0
+Simuliert wurde Vergleichsstrecke: 120
+Auswertungsstrecke: 20
+Prozentsatz: 70.0 von 2298882 bis 2304649
+Anzahl gefundener Formationen um zu traden: 10
+Anzahl Zusammenfasser10
+Erfolge: 0 Misserfolge: 0 Gewonnene Punkte: 0Dauer in millis: 0

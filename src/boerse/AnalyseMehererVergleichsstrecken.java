@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Properties;
 
 import com.sun.mail.smtp.SMTPTransport;
+import java.io.IOException;
 import java.security.Security;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -31,6 +33,7 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
     Dateilogger logger = Dateilogger.getInstance();
     RechnerZusammenfasser rechner;
     List<Integer> closewerte;
+    Timestamp now;
     int ausgangspkt,vergleichsLaenge,auswertungslaenge;
     boolean longPosition, mehrereVergleichsstrecken, SimulatorModus;
     int zusammenfasserInterval;
@@ -62,8 +65,9 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
     int hoherShortVerlust = 0;
     int anzFormFound = 0;
     
-    AnalyseMehererVergleichsstrecken(List<Integer> intArray,int ausgangspkt,List<Integer> listVergleichsLaenge,int auswertungslaenge, int spread, String instrument){
+    AnalyseMehererVergleichsstrecken(Timestamp now, List<Integer> intArray,int ausgangspkt,List<Integer> listVergleichsLaenge,int auswertungslaenge, int spread, String instrument){
         closewerte = intArray;
+        this.now = now;
         this.ausgangspkt =ausgangspkt;
         this.listVergleichsLaenge = listVergleichsLaenge;
         this.auswertungslaenge = auswertungslaenge;
@@ -121,6 +125,19 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
         tradeTmp = rechner.analyse(/*this.closewerte, this.closewerte.size()-1, 240, auswertungslaenge*/);
         addiere(tradeTmp);
         System.out.println(" Formation "+anzFormFound+" mal gefunden");
+        
+        TradeMessage tradeMessage = new TradeMessage(now, "EUR/USD", auswertungslaenge, anzFormFound, GewinnzaehlerLong, mittlererLongGewinn, hoherLongGewinn, sehrHoherLongGewinn, VerlustzaehlerLong, hoherLongVerlust, geringerShortGewinn, mittlererShortGewinn, hoherShortGewinn, sehrHoherShortGewinn, VerlustzaehlerShort, hoherShortVerlust);
+        try {
+            tradeMessage.persistTradeMessage();
+            //    public TradeMessage(Timestamp id, String instrument, int timeperiod, int anzFound, int longWin, int longWinMiddle, int longWinHigh, int longWinVeryHigh, int longLose,
+            //int longLoseHigh, int shortWin, int shortWinMiddle, int shortWinHigh, int shortWinVeryHigh, int shortLose, int shortLoseHigh) {
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
         if(anzFormFound>19 && (GewinnzaehlerLong > VerlustzaehlerLong*2 || GewinnzaehlerShort > VerlustzaehlerShort*2 || (hoherLongGewinn > hoherLongVerlust*2 && hoherLongGewinn > 4 )||(hoherShortGewinn > hoherShortVerlust*2 && hoherShortGewinn > 4))){
             String ausgabe = "";
             if(this.spread == 1){

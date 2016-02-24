@@ -192,7 +192,7 @@ public class WerteAuslesen {
             
 //            sleep(2000);
             //Gesamtanalyseergebnis der nächsten 20 min
-            new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
+            new AnalyseMehererVergleichsstrecken(akt, closewerte, closewerte.size()-1, null , 20, spread.eurusd, "EUR/USD").start();
 //            new AnalyseMehererVergleichsstrecken(audusdDiffwerte, audusdDiffwerte.size()-1, null , 20, spread.audusd, "AUD/USD").start();
             //new AnalyseMehererVergleichsstrecken(closewerte, closewerte.size()-1, List<Integer> Vergleichsstrecken, 20, List<Integer> Zusammenfassintervalle,spread.eurusd,"EUR/USD",true,false).start();        
         }

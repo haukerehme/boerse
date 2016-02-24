@@ -5,10 +5,18 @@
  */
 
 package boerse;
+import static boerse.RaspberryPiBoerse.logger;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -107,4 +115,17 @@ public class ArrayOperationen {
         return false;
     }
     
+    int findIndexOfTimestamp(ArrayList<Timestamp> list, Timestamp timestamp) throws ClassNotFoundException, IOException, SQLException{
+        Timestamp gesuchteZeit = timestamp;
+        double wertNeu;
+        int zaehler = 0;
+        for(int i = 0; i < list.size();i++){
+            if(list.get(i).equals(gesuchteZeit)){
+                System.out.println("Index: " + zaehler);
+                return zaehler;
+            }
+            zaehler++;
+        }
+        return -1;
+    }
 }

@@ -251,7 +251,7 @@ public class RechnerZusammenfasser extends Thread{
 
             ausgabe += "\nShort:   GEWINN: "+GewinnzaehlerShort+"/"+anzFormFound+" , "+sehrHoherShortGewinn+"/"+GewinnzaehlerShort+" , "+hoherShortGewinn+"/"+GewinnzaehlerShort+" , "+mittlererShortGewinn+"/"+GewinnzaehlerShort+" , "+geringerShortGewinn+"/"+GewinnzaehlerShort;
             ausgabe += "\nShort:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort+"\n";
-            System.out.print(ausgabe);
+            //System.out.print(ausgabe);
         }
         
         double wahrscheinlichkeitLong = 100* (double) GewinnzaehlerLong / ((double) GewinnzaehlerLong+(double) VerlustzaehlerLong);

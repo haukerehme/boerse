@@ -152,7 +152,7 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
             ausgabe += "\nShort:   VERLUST: "+VerlustzaehlerShort+"/"+anzFormFound+" , "+hoherShortVerlust+"/"+VerlustzaehlerShort+"\n";
             System.out.print(ausgabe);
             try {
-                sendMail("haukekatha","43mitmilch","hrs@logentis.de","katharina_kroener@web.de","Handeln",ausgabe);
+                sendMail("haukekatha","43mitmilch","hrs@logentis.de","lemur.katha@googlemail.de","Handeln",ausgabe);
             } catch (MessagingException ex) {
                 Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
             }

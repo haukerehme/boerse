@@ -108,6 +108,7 @@ public class RechnerZusammenfasser extends Thread{
         //System.out.println("Arraygröße: "+aktuellerAbschnittUnterteilt.size());
         for(int i = 0; i < closewerte.size()-(vergleichsLaenge+this.auswertungslaenge);i++){
             formFound = true;
+            
             if(
                         //sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) < 4 &&
                         //sublistAddierer(aktuellerAbschnittUnterteilt.get(0)) - addierer(closewerte,i, i+zusammenfasserInterval-1) > -4

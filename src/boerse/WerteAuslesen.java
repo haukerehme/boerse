@@ -116,7 +116,6 @@ public class WerteAuslesen {
                 akt.setMinutes(akt.getMinutes()-1);
             }
             akt.setSeconds(59);   
-            
             /*BufferedWriter bw = new BufferedWriter(new FileWriter("/home/test.csv",true));
             bw.write(akt.toString()+";"+eurusdWert);
             bw.newLine();

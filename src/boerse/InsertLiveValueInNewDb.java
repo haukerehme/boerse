@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author hrs <hauke.rehme-schlueter at hotmail.com>
  */
 public class InsertLiveValueInNewDb extends Thread{
-   Dateilogger logger = Dateilogger.getInstance();
+    Dateilogger logger = Dateilogger.getInstance();
     double closewert;
     Connection conn;
     String queryEurusd;
@@ -27,6 +27,7 @@ public class InsertLiveValueInNewDb extends Thread{
 
     public InsertLiveValueInNewDb(double closewert, Timestamp timestamp) throws ClassNotFoundException, SQLException {
         this.closewert = closewert;
+        this.timestamp = timestamp;
         try{
           //create a mysql database connection
           String myUrl = "jdbc:mysql://localhost:3306/Boerse";
@@ -43,7 +44,7 @@ public class InsertLiveValueInNewDb extends Thread{
     
     
     
-    public void insertIntoBoerseDb(double closewert, Timestamp akt) throws IOException{
+    public void insertIntoBoerseDb(double closewert, Timestamp akt) throws IOException, SQLException{
         PreparedStatement preparedStmt = null;
             try {
                 preparedStmt = conn.prepareStatement(queryEurusd);
@@ -55,6 +56,7 @@ public class InsertLiveValueInNewDb extends Thread{
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
             }
+            conn.close();
     }
     
     @Override
@@ -62,6 +64,8 @@ public class InsertLiveValueInNewDb extends Thread{
        try {
            insertIntoBoerseDb(this.closewert,this.timestamp);
        } catch (IOException ex) {
+           Logger.getLogger(InsertLiveValueInNewDb.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (SQLException ex) {
            Logger.getLogger(InsertLiveValueInNewDb.class.getName()).log(Level.SEVERE, null, ex);
        }
     }

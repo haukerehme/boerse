@@ -133,6 +133,7 @@ public class WerteAuslesen {
                 preparedStmt.setDouble(2, eurusdWert);
                 // execute the preparedstatement
                 preparedStmt.execute();
+                new InsertLiveValueInNewDb(eurusdWert,akt).start();
             } catch (SQLException ex) {
                 logger.loggeWarning("SQL Exception: "+ex.toString());
                 Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);

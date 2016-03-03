@@ -52,6 +52,15 @@ public class AuswertungTradevorhersagenTabelle {
                 System.err.println("Got an exception!");
                 System.err.println(e.getMessage());
             }   
+            if((i*100)/auswertModels.size() > 19.9 && (i*100)/auswertModels.size() < 20.1){
+                System.out.println("20%");
+            }else if((i*100)/auswertModels.size() > 39.9 && (i*100)/auswertModels.size() < 40.1){
+                System.out.println("40%");
+            }else if((i*100)/auswertModels.size() > 59.9 && (i*100)/auswertModels.size() < 60.1){
+                System.out.println("60%");
+            }else if((i*100)/auswertModels.size() > 79.9 && (i*100)/auswertModels.size() < 80.1){
+                System.out.println("80%");
+            }
         }
     }
 }

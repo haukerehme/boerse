@@ -34,7 +34,7 @@ public class DbControllerAuswertung {
             String myUrl = "jdbc:mysql://62.75.142.111:3306/Boerse";
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
-            String query = "SELECT `timestamp`, `wert`, `anzFound`, `longWin`, `longWinMiddle`, `longWinHigh`, `longWinVeryHigh`, `longLose`, `longLoseHigh`, `shortWin`, `shortWinMiddle`, `shortWinHigh`, `shortWinVeryHigh`, `shortLose`, `shortLoseHigh` FROM `TradeMessage`,`eurusd` WHERE timestamp = zeit";
+            String query = "SELECT `timestamp`, `wert`, `anzFound`, `longWin`, `longWinMiddle`, `longWinHigh`, `longWinVeryHigh`, `longLose`, `longLoseHigh`, `shortWin`, `shortWinMiddle`, `shortWinHigh`, `shortWinVeryHigh`, `shortLose`, `shortLoseHigh` FROM `TradeMessage`,`eurusd` WHERE timestamp = zeit and 20minLong is null";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             rs = preparedStmt.executeQuery();
             

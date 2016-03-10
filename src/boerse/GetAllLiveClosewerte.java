@@ -28,8 +28,7 @@ public class GetAllLiveClosewerte {
             Scanner scanner = new Scanner(new URL("http://62.75.142.111/eurusd.php").openStream());
             while (scanner.hasNextLine()) {
                 //System.out.println(scanner.nextLine());
-                if(i == 2)
-                {
+                if(i == 2){
                     //System.out.println(scanner.nextLine());
                     sb.append(scanner.nextLine() + "\n");
                     /*System.out.println(sb.indexOf(">")+1);

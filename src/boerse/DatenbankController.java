@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  *
  * @author administrator
  */
+//ToDo: change to Singleton
 public class DatenbankController {
     
     ArrayList<Integer> remoteDbEurUsdColumInArrayList() throws IOException, ClassNotFoundException, SQLException{

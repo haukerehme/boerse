@@ -93,6 +93,7 @@ public class WerteAuslesen {
             audusdWert = 0;
             try{
                 eurusdWert = getAllLive.getClosewert();
+                //ToDo: In rechneOperationen
                 int diff = (int) (10000*eurusdWert - 10000*eurusdLetzterWert);
                 closewerte.add(diff);
                 eurusdLetzterWert = eurusdWert;

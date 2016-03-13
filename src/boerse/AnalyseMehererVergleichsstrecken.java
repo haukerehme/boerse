@@ -13,6 +13,7 @@ import java.util.Properties;
 import com.sun.mail.smtp.SMTPTransport;
 import java.io.IOException;
 import java.security.Security;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Properties;
@@ -134,6 +135,8 @@ public class AnalyseMehererVergleichsstrecken extends Thread{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(AnalyseMehererVergleichsstrecken.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -7,6 +7,7 @@ package boerse;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Objects;
 /**
@@ -287,7 +288,7 @@ public class TradeMessage{
 
     
 
-    public void persistTradeMessage() throws ClassNotFoundException, IOException {
+    public void persistTradeMessage() throws ClassNotFoundException, IOException, SQLException {
         DatenbankController dbCon = new DatenbankController();
         dbCon.persistTradeMessage(this);
     }

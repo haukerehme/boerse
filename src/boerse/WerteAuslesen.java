@@ -92,6 +92,7 @@ public class WerteAuslesen {
             //gpbjpyWert = 0;
             audusdWert = 0;
             try{
+                
                 eurusdWert = getAllLive.getClosewert();
                 //ToDo: In rechneOperationen
                 int diff = (int) (10000*eurusdWert - 10000*eurusdLetzterWert);
@@ -117,6 +118,7 @@ public class WerteAuslesen {
                 akt.setMinutes(akt.getMinutes()-1);
             }
             akt.setSeconds(59);   
+            dbCon.igEurUsdInDb(akt);
             /*BufferedWriter bw = new BufferedWriter(new FileWriter("/home/test.csv",true));
             bw.write(akt.toString()+";"+eurusdWert);
             bw.newLine();

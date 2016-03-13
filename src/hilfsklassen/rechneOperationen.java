@@ -14,6 +14,10 @@ public class rechneOperationen {
     private rechneOperationen() {
     }
     
+    double plusDoubleRound(double a, double b, int nachkommastellen){
+        return 0.0;
+    }
+    
     public static rechneOperationen getInstance() {
         return rechneOperationenHolder.INSTANCE;
     }

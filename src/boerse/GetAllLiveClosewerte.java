@@ -46,7 +46,7 @@ public class GetAllLiveClosewerte {
         e.printStackTrace();
         }
         //return sb.toString();
-        return Double.parseDouble(sb.substring(6, sb.indexOf("</")));
+        return Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("\n")));
     } 
     
      public double getIgEurUsdWert() throws MalformedURLException {

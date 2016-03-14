@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boerse;
+package Test;
 
+import boerse.GetAllLiveClosewerte;
 import java.net.MalformedURLException;
 
 /**

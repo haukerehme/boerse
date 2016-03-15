@@ -187,10 +187,10 @@ public class DatenbankController {
         try
         {
             // create a mysql database connection
-            String myUrl = "jdbc:mysql://62.75.142.111:3306/eurusd";
+            String myUrl = "jdbc:mysql://62.75.142.111:3306/Boerse";
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(myUrl, "root", "43mitmilch");
-            String query = "Select wert,zeit From closewerte order by zeit DESC Limit 1";
+            String query = "Select wert,zeit From eurusd order by zeit DESC Limit 1";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             rs = preparedStmt.executeQuery();
             rs.next();
@@ -353,7 +353,7 @@ public class DatenbankController {
         e.printStackTrace();
         }
         //return sb.toString();
-        System.out.println(Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("</"))));
+        //System.out.println(Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("</"))));
         Double value = Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("</")));
         
         

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boerse;
+package Test;
 
-import static boerse.RaspberryPiBoerse.logger;
+import boerse.WerteAuslesen;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,7 +56,7 @@ public class testNewEurUsdIg {
         e.printStackTrace();
         }
         //return sb.toString();
-        System.out.println(Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("</"))));
+        //System.out.println(Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("</"))));
         Double value = Double.parseDouble(sb.substring(sb.indexOf("<body>")+6, sb.indexOf("</")));
         
         
@@ -78,7 +78,6 @@ public class testNewEurUsdIg {
             
             preparedStatement.executeUpdate();
         }catch (SQLException ex) {
-            logger.loggeWarning("SQL Exception persistTradeMessage: "+ex.toString());
             Logger.getLogger(WerteAuslesen.class.getName()).log(Level.SEVERE, null, ex);
         }
         conn.close();
